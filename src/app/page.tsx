@@ -5,8 +5,8 @@ import Tile from "./Components/tile";
 export default function Home() {
   return <>
     <header className={styles.SiteTitle}>
-      <h1>I'm Collin Vesel</h1>
-      <p className="Subtitle">and I made some things</p>
+      <h1 className={styles.ClearMargin}>I'm Collin Vesel</h1>
+      <p>and I made some things</p>
     </header>
     <main className={styles.HomeGrid}>
       {/* TODO: Redo styling to be responsive. */}

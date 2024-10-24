@@ -3,6 +3,11 @@ I've heard that's a best practice. */
 
 .SiteTitle {
     text-align: center;
+    margin-block: 2em;
+}
+
+.ClearMargin {
+    margin: 0;
 }
 
 .HomeGrid {
