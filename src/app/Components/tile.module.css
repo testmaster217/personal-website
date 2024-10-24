@@ -1,5 +1,13 @@
-.TileTitle {
+.Tile {
     background-color: green;
     color: white;
     margin: 0;
+    box-sizing: border-box;
+    padding: 0.5em;
+    display: flex;
+    text-decoration: none;
+}
+
+.TileTitle {
+    align-self: flex-end;
 }

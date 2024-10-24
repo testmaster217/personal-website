@@ -1,0 +1,5 @@
+body {
+    width: calc(100% - 2em);
+    padding-inline: 1em;
+    margin: 0;
+}

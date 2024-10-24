@@ -1,7 +1,13 @@
-/* Mobile styling by default bc I've heard that's a best practice. */
+/* Mobile styling by default and desktop styling in a media query bc
+I've heard that's a best practice. */
+
+.SiteTitle {
+    text-align: center;
+}
+
 .HomeGrid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 1em;
+    grid-template-columns: repeat(4, calc(25vw - 2.375em));
+    grid-template-rows: repeat(5, calc(25vw - 2.375em));
+    gap: 2.5em;
 }
