@@ -1,8 +1,8 @@
 /* Mobile styling by default and desktop styling in a media query bc
 I've heard that's a best practice. */
-
 .SiteTitle {
     text-align: center;
+    margin-block: 1em;
 }
 
 .SiteTitleHeader {
@@ -20,6 +20,8 @@ I've heard that's a best practice. */
     grid-template-columns: repeat(3, calc(33vw - 2.34em));
     grid-auto-rows: calc(33vw - 2.34em);
     gap: 2.5em;
+    width: calc(100vw - 2em);
+    margin: 1em auto;
 }
 
 .CreditNotice {
@@ -66,16 +68,21 @@ I've heard that's a best practice. */
     grid-row: 6 / span 2;
 }
 
-/* Desktop styling. */
-@media only screen and (min-width: 52em) {
+/* Desktop styling.
+(Only works in landscape mode to avoid breaking on iPads in portrait mode. */
+@media only screen and (min-width: 52em) and (orientation: landscape) {
+    .SiteTitle {
+        margin-block: 0;
+    }
+
     .HomeGrid {
-        /* width: 50em; */
         width: calc(150vh - 11.5em);
         margin: auto;
         grid-template-columns: repeat(6, calc(25vh - 2.75em));
         grid-auto-rows: auto;
         grid-template-rows: repeat(4, calc(25vh - 2.75em));
         gap: 1em;
+        margin: auto;
     }
 
     /* Styles for the various tiles on the grid. */
