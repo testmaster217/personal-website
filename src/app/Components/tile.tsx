@@ -2,34 +2,20 @@ import Link from 'next/link';
 
 import styles from './tile.module.css';
 
-export default function Tile({title, linkTo, x, y, width, height}: {
+export default function Tile({title, tileStyle, linkTo}: {
     title: string,
-    linkTo?: string,
-    x: number,
-    y: number,
-    width: number,
-    height: number
+    tileStyle: string,
+    linkTo?: string
 }) {
     if (linkTo)
-        return <Link
-            href={linkTo}
-            style={{
-                gridColumn: `${x} / span ${width}`,
-                gridRow: `${y} / span ${height}`
-            }}
-            className={styles.Tile}
+        return <Link href={linkTo} className={`${styles.Tile} ${tileStyle}`}
         >
             <span className={styles.TileTitle}>{title}</span>
         </Link>;
 
     {/* This <span> is a placeholder. The actual alternate return will be
         something else, but I don;'t know what yet. */}
-    return <span
-        style={{
-            gridColumn: `${x} / span ${width}`,
-            gridRow: `${y} / span ${height}`
-        }}
-        className={styles.Tile}
+    return <span className={`${styles.Tile} ${tileStyle}`}
     >
         <span className={styles.TileTitle}>{title}</span>
     </span>

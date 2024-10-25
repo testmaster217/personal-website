@@ -6,13 +6,52 @@ I've heard that's a best practice. */
     margin-block: 2em;
 }
 
+/* Clears the margin from the part of the title that it's applied to. */
 .ClearMargin {
     margin: 0;
 }
 
 .HomeGrid {
     display: grid;
-    grid-template-columns: repeat(3, calc(33vw - 2.33em));
-    grid-auto-rows: calc(33vw - 2.33em);
+    grid-template-columns: repeat(3, calc(33vw - 2.34em));
+    grid-auto-rows: calc(33vw - 2.34em);
     gap: 2.5em;
+}
+
+/* Styles for the various tiles on the grid. */
+.BioTile {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+}
+.ResumeTile {
+    grid-column: 2 / span 2;
+    grid-row: 1 / span 1;
+}
+.SocialsTile {
+    grid-column: 1 / span 2;
+    grid-row: 2 / span 1;
+}
+.FeaturedTile {
+    grid-column: 1 / span 3;
+    grid-row: 3 / span 3;
+}
+.ProjectsTile {
+    grid-column: 1 / span 1;
+    grid-row: 6 / span 1;
+}
+.ToyboxTile {
+    grid-column: 2 / span 1;
+    grid-row: 6 / span 1;
+}
+.BlogTile {
+    grid-column: 1 / span 1;
+    grid-row: 7 / span 1;
+}
+.ThoughtsTile {
+    grid-column: 2 / span 1;
+    grid-row: 7 / span 1;
+}
+.NotMineTile {
+    grid-column: 3 / span 1;
+    grid-row: 6 / span 2;
 }
