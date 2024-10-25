@@ -3,12 +3,16 @@ I've heard that's a best practice. */
 
 .SiteTitle {
     text-align: center;
-    margin-block: 2em;
 }
 
-/* Clears the margin from the part of the title that it's applied to. */
-.ClearMargin {
+.SiteTitleHeader {
     margin: 0;
+    font-size: 3em;
+}
+
+.SiteTitleSubheader {
+    font-size: 1.75em;
+    margin-block: 0 0.5em;
 }
 
 .HomeGrid {
@@ -16,6 +20,12 @@ I've heard that's a best practice. */
     grid-template-columns: repeat(3, calc(33vw - 2.34em));
     grid-auto-rows: calc(33vw - 2.34em);
     gap: 2.5em;
+}
+
+.CreditNotice {
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    color: white;
 }
 
 /* Styles for the various tiles on the grid. */
@@ -54,4 +64,55 @@ I've heard that's a best practice. */
 .NotMineTile {
     grid-column: 3 / span 1;
     grid-row: 6 / span 2;
+}
+
+/* Desktop styling. */
+@media only screen and (min-width: 52em) {
+    .HomeGrid {
+        /* width: 50em; */
+        width: calc(150vh - 11.5em);
+        margin: auto;
+        grid-template-columns: repeat(6, calc(25vh - 2.75em));
+        grid-auto-rows: auto;
+        grid-template-rows: repeat(4, calc(25vh - 2.75em));
+        gap: 1em;
+    }
+
+    /* Styles for the various tiles on the grid. */
+    .BioTile {
+        grid-column: 1 / span 1;
+        grid-row: 1 / span 1;
+    }
+    .ResumeTile {
+        grid-column: 1 / span 1;
+        grid-row: 2 / span 1;
+    }
+    .SocialsTile {
+        grid-column: 1 / span 1;
+        grid-row: 3 / span 1;
+    }
+    .FeaturedTile {
+        grid-column: 2 / span 4;
+        grid-row: 1 / span 3;
+    }
+    .ProjectsTile {
+        grid-column: 2 / span 2;
+        grid-row: 4 / span 1;
+    }
+    .ToyboxTile {
+        grid-column: 4 / span 2;
+        grid-row: 4 / span 1;
+    }
+    .BlogTile {
+        grid-column: 6 / span 1;
+        grid-row: 1 / span 1;
+    }
+    .ThoughtsTile {
+        grid-column: 6 / span 1;
+        grid-row: 2 / span 1;
+    }
+    .NotMineTile {
+        grid-column: 6 / span 1;
+        grid-row: 3 / span 1;
+    }
 }

@@ -5,8 +5,8 @@ import Tile from "./Components/tile";
 export default function Home() {
   return <>
     <header className={styles.SiteTitle}>
-      <h1 className={styles.ClearMargin}>I'm Collin Vesel</h1>
-      <p>and I made some things</p>
+      <h1 className={styles.SiteTitleHeader}>I'm Collin Vesel</h1>
+      <p className={styles.SiteTitleSubheader}>and I made some things</p>
     </header>
     <main className={styles.HomeGrid}>
       <Tile title="Bio" linkTo="/bio" tileStyle={styles.BioTile}/>
@@ -19,8 +19,8 @@ export default function Home() {
       <Tile title="Thoughts" tileStyle={styles.ThoughtsTile}/>
       <Tile title="Not Mine, but Cool" tileStyle={styles.NotMineTile}/>
     </main>
-    {/* <footer>
+    <footer className={styles.CreditNotice}>
       <small>Copyright notice for bg img goes here.</small>
-    </footer> */}
+    </footer>
   </>;
 }
