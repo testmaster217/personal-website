@@ -11,14 +11,14 @@ export default function Home() {
     <main className={styles.HomeGrid}>
       {/* TODO: Redo styling to be responsive. */}
       <Tile title="Bio" linkTo="/bio" x={1} y={1} width={1} height={1}/>
-      <Tile title="Resume" linkTo="/resume" x={1} y={2} width={1} height={1}/>
-      <Tile title="Socials" linkTo="/socials" x={1} y={3} width={1} height={1}/>
-      <Tile title="Featured Updates" x={2} y={1} width={3} height={3}/>
-      <Tile title="All Projects" x={1} y={4} width={2} height={1}/>
-      <Tile title="Toybox" x={3} y={4} width={2} height={1}/>
-      <Tile title="Blog Posts" x={1} y={5} width={1} height={1}/>
-      <Tile title="Thoughts" x={2} y={5} width={1} height={1}/>
-      <Tile title="Not Mine, but Cool" x={3} y={5} width={1} height={1}/>
+      <Tile title="Resume" linkTo="/resume" x={2} y={1} width={2} height={1}/>
+      <Tile title="Socials" linkTo="/socials" x={1} y={2} width={2} height={1}/>
+      <Tile title="Featured Updates" x={1} y={3} width={3} height={3}/>
+      <Tile title="All Projects" x={1} y={6} width={1} height={1}/>
+      <Tile title="Toybox" x={2} y={6} width={1} height={1}/>
+      <Tile title="Blog Posts" x={1} y={7} width={1} height={1}/>
+      <Tile title="Thoughts" x={2} y={7} width={1} height={1}/>
+      <Tile title="Not Mine, but Cool" x={3} y={6} width={1} height={2}/>
     </main>
     {/* <footer>
       <small>Copyright notice for bg img goes here.</small>

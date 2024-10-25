@@ -12,7 +12,7 @@ I've heard that's a best practice. */
 
 .HomeGrid {
     display: grid;
-    grid-template-columns: repeat(4, calc(25vw - 2.375em));
-    grid-template-rows: repeat(5, calc(25vw - 2.375em));
+    grid-template-columns: repeat(3, calc(33vw - 2.33em));
+    grid-auto-rows: calc(33vw - 2.33em);
     gap: 2.5em;
 }
