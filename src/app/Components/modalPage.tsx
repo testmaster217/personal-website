@@ -1,7 +1,11 @@
 "use client"
 
+import Link from "next/link";
+
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react"
+
+import styles from "./modalPage.module.css";
 
 export default function ModalPage({
     children
@@ -16,8 +20,10 @@ export default function ModalPage({
             pageDialog.current && pageDialog.current.showModal();
     }, [pathname]);
 
+    const returnLink = pathname.substring(0, pathname.lastIndexOf("/")) === "" ? "/" : pathname.substring(0, pathname.lastIndexOf("/"));
+
     return <dialog ref={pageDialog}>
-        <button autoFocus type="button" onClick={() => pageDialog.current && pageDialog.current.close()}>X</button>
+        <Link autoFocus href={returnLink} className={styles.CloseBtn} onClick={() => pageDialog.current && pageDialog.current.close()}>X</Link>
         {children}
     </dialog>
 }
