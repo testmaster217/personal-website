@@ -4,8 +4,38 @@
     margin: 0;
     box-sizing: border-box;
     padding: 0.5em;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 0%;
+    left: 0%;
     display: flex;
     text-decoration: none;
+    transition-duration: 0.1s;
+    transition-timing-function: linear;
+}
+
+@media only screen and (hover) {
+    .Tile:hover,
+    .Tile:focus {
+        /* transform: scale(1.1); */
+        width: calc(100% + 1em);
+        height: calc(100% + 1em);
+        top: -0.5em;
+        left: -0.5em;
+        transition-duration: 0.1s;
+        transition-timing-function: linear;
+    }
+}
+
+.Tile:active {
+    /* transform: scale(0.9); */
+    width: calc(100% - 0.5em);
+    height: calc(100% - 0.5em);
+    top: 0.25em;
+    left: 0.25em;
+    transition-duration: 0.1s;
+    transition-timing-function: linear;
 }
 
 .TileTitle {
