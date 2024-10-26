@@ -82,7 +82,6 @@ I've heard that's a best practice. */
         grid-auto-rows: auto;
         grid-template-rows: repeat(4, calc(25vh - 2.75em));
         gap: 1em;
-        margin: auto;
     }
 
     /* Styles for the various tiles on the grid. */
