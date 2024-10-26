@@ -12,7 +12,7 @@ export default function ModalPage({
     const pathname = usePathname();
 
     useEffect(() => {
-        if (pathname.match(/\/./))
+        if (pathname.match(/\/./) && pageDialog.current && !pageDialog.current.open)
             pageDialog.current && pageDialog.current.showModal();
     }, [pathname]);
 
