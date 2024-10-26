@@ -4,23 +4,12 @@ import Tile from "./Components/tile";
 
 export default function Home() {
   return <>
-    <header className={styles.SiteTitle}>
-      <h1 className={styles.SiteTitleHeader}>I'm Collin Vesel</h1>
-      <p className={styles.SiteTitleSubheader}>and I made some things</p>
-    </header>
-    <main className={styles.HomeGrid}>
-      <Tile title="Bio" linkTo="/bio" tileStyle={styles.BioTile}/>
-      <Tile title="Resume" linkTo="/resume" tileStyle={styles.ResumeTile}/>
-      <Tile title="Socials" linkTo="/socials" tileStyle={styles.SocialsTile}/>
-      <Tile title="Featured Updates" tileStyle={styles.FeaturedTile}/>
-      <Tile title="All Projects" tileStyle={styles.ProjectsTile}/>
-      <Tile title="Toybox" tileStyle={styles.ToyboxTile}/>
-      <Tile title="Blog Posts" tileStyle={styles.BlogTile}/>
-      <Tile title="Thoughts" tileStyle={styles.ThoughtsTile}/>
-      <Tile title="Not Mine, but Cool" tileStyle={styles.NotMineTile}/>
-    </main>
-    <footer className={styles.CreditNotice}>
-      <small>Copyright notice for bg img goes here.</small>
-    </footer>
+    {
+      /*
+        This file and function only exist so that the site will actually render
+        in the browser. The actual homepage code is in layout.tsx because of how
+        I wanted to handle the other pages. More information in that file.
+      */
+    }
   </>;
 }
