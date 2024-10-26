@@ -1,7 +1,3 @@
-import styles from "./page.module.css";
-
-import Tile from "./Components/tile";
-
 export default function Home() {
   return <>
     {

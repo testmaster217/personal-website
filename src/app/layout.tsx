@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
-import styles from './page.module.css';
+import styles from './homepage.module.css';
 
 import ModalPage from "./Components/modalPage";
 import Tile from "./Components/tile";
