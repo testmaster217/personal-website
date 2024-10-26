@@ -46,27 +46,46 @@ I've heard that's a best practice. */
 .FeaturedTile {
     grid-column: 1 / span 3;
     grid-row: 3 / span 3;
+    background-color: #333 !important;
 }
 .ProjectsTile {
     grid-column: 1 / span 1;
     grid-row: 6 / span 1;
+    background-color: #333 !important;
 }
 .ToyboxTile {
     grid-column: 2 / span 1;
     grid-row: 6 / span 1;
+    background-color: #333 !important;
 }
 .BlogTile {
     grid-column: 1 / span 1;
     grid-row: 7 / span 1;
+    background-color: #333 !important;
 }
 .ThoughtsTile {
     grid-column: 2 / span 1;
     grid-row: 7 / span 1;
+    background-color: #333 !important;
 }
 .NotMineTile {
     grid-column: 3 / span 1;
     grid-row: 6 / span 2;
+    background-color: #333 !important;
 }
+/* For tiles that shouldn't work. */
+.DisabledTile {
+    transition: none !important;
+}
+.DisabledTile:hover,
+.DisabledTile:focus,
+.DisabledTile:active {
+    width: 100% !important;
+    height: 100% !important;
+    top: 0% !important;
+    left: 0% !important;
+}
+
 
 /* Desktop styling.
 (Only works in landscape mode to avoid breaking on iPads in portrait mode. */
