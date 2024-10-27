@@ -13,19 +13,19 @@ export default function Bio() {
                 <p>
                     I fell in love with programming and the creative power it gave 
                     me in eighth grade, and have been building up my skills and my 
-                    ideas for what to do with them ever since. Most of my experience 
-                    so far has been in web, desktop, and game development – 
-                    specifically with Java, C#, and JavaScript mostly – but I am more 
-                    than willing to learn any tools or technologies that I need to.
+                    ideas for what to do with those skills ever since. Most of my 
+                    experience so far has been in web, desktop, and game development 
+                    – specifically with Java, C#, and JavaScript mostly – but I am 
+                    more than willing to learn any tools or technologies that I need to.
                 </p>
                 <p>
                     I also have high standards for the work that I do and am very 
-                    detail-oriented. In college, I would often start working on 
-                    major assignments as soion as they were available or anounced, 
-                    continue working on it until right before the deadline, think, 
-                    "It's not as good as I'd like, but it's good enough" as I was 
-                    about to submit it, and then get full credit for it because I 
-                    had done a better job than I realized or was trying to do.
+                    detail-oriented. In college, I would often start working on a 
+                    major assignment as soon as it was available or anounced, would 
+                    continue working on it until right before the deadline, would 
+                    think, "It's not as good as I'd like, but it's good enough" as 
+                    I was about to submit it, and then would get full credit for it 
+                    because I had done a better job than I realized or was trying to do.
                 </p>
                 <p>
                     All of this led me to complete a software engineering internship 
@@ -49,11 +49,11 @@ export default function Bio() {
                     it involves knowing what needs the optimization).
                 </p>
                 <p>
-                    I have the tools – or the willingness to learn. I have some of the 
-                    wisdom – and an intent to get wiser. I have an eye for details and 
-                    am building one for design – even if my vision impairment keeps me 
+                    I have the tools – and the willingness to learn more. I have some of 
+                    the wisdom – and an intent to get wiser. I have an eye for details and 
+                    am building an eye for design – even if my vision impairment keeps me 
                     from seeing much else without Windows Magnifier (which reminds me, 
-                    I should probably use that to finsih writing this...🙃). And I have 
+                    I should probably use that to finish writing this...🙃). And I have 
                     a <em>massive</em> amount of ideas for what to do with all of this 
                     (which I affectionately refer to as my "Dragon's Hoard of iCloud Notes").
                 </p>
