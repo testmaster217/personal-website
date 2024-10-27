@@ -3,8 +3,26 @@ body {
     margin: auto;
     display: flex;
     flex-direction: column;
+    background-color: #efefff;
 }
 
 body main {
     flex-grow: 1;
+}
+
+h1, h1 + p {
+    font-family: 'Cascadia Code', sans-serif;
+}
+
+p, a, span {
+    font-family: sans-serif;
+}
+
+dialog {
+    border: none;
+    background-color: #efefff;
+}
+
+dialog::backdrop {
+    background-color: rgba(191, 191, 207, 0.5);
 }
