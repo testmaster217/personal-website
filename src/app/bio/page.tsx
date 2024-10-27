@@ -40,7 +40,7 @@ export default function Bio() {
                 <p>
                     As college wrapped up and after I graduated, I translated my high 
                     standards and desire to do the best work that I can into an 
-                    understanding that software engineering is a <i>lot</i> more than 
+                    understanding that software engineering is a <em>lot</em> more than 
                     just programming. It also involves knowing what problems to solve 
                     (by listening to stakeholders) and how best to solve them. It 
                     involves working with team members and effectively managing the 
@@ -54,7 +54,7 @@ export default function Bio() {
                     am building one for design – even if my vision impairment keeps me 
                     from seeing much else without Windows Magnifier (which reminds me, 
                     I should probably use that to finsih writing this...🙃). And I have 
-                    a <i>massive</i> amount of ideas for what to do with all of this 
+                    a <em>massive</em> amount of ideas for what to do with all of this 
                     (which I affectionately refer to as my "Dragon's Hoard of iCloud Notes").
                 </p>
                 <p>
