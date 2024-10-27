@@ -36,6 +36,7 @@ p, a, span {
 dialog {
     border: none;
     background-color: #efefff;
+    padding: 0;
 }
 
 dialog::backdrop {
