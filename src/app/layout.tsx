@@ -37,12 +37,12 @@ export default function RootLayout({
           <Tile title="Bio" linkTo="/bio" tileStyle={styles.BioTile}/>
           <Tile title="Resume" linkTo="/resume" tileStyle={styles.ResumeTile}/>
           <Tile title="Socials" linkTo="/socials" tileStyle={styles.SocialsTile}/>
-          <Tile title="Coming Soon" tileStyle={`${styles.FeaturedTile} ${styles.DisabledTile}`}/>
-          <Tile title="Coming Soon" tileStyle={`${styles.ProjectsTile} ${styles.DisabledTile}`}/>
-          <Tile title="Coming Soon" tileStyle={`${styles.ToyboxTile} ${styles.DisabledTile}`}/>
-          <Tile title="Coming Soon" tileStyle={`${styles.BlogTile} ${styles.DisabledTile}`}/>
-          <Tile title="Coming Soon" tileStyle={`${styles.ThoughtsTile} ${styles.DisabledTile}`}/>
-          <Tile title="Coming Soon" tileStyle={`${styles.NotMineTile} ${styles.DisabledTile}`}/>
+          {/* <Tile title="Featured Updates" tileStyle={`${styles.FeaturedTile} ${styles.DisabledTile}`}/>
+          <Tile title="All Projects" tileStyle={`${styles.ProjectsTile} ${styles.DisabledTile}`}/>
+          <Tile title="Toybox" tileStyle={`${styles.ToyboxTile} ${styles.DisabledTile}`}/>
+          <Tile title="Blog Posts" tileStyle={`${styles.BlogTile} ${styles.DisabledTile}`}/>
+          <Tile title="Thoughts" tileStyle={`${styles.ThoughtsTile} ${styles.DisabledTile}`}/>
+          <Tile title="Not Mine, But Cool" tileStyle={`${styles.NotMineTile} ${styles.DisabledTile}`}/> */}
         </main>
         {/* <footer className={styles.CreditNotice}>
           <small>Copyright notice for bg img goes here.</small>
