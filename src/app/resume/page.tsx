@@ -13,8 +13,8 @@ export default function Resume() {
             </p>
         </header>
         <main className={styles.ResumeGrid}>
-            <Tile title="Download PDF" tileStyle={styles.PDFTile} linkTo="./resume.pdf" newTab shouldDownload/>
-            <Tile title="Download Word doc" tileStyle={styles.WordDocTile} linkTo="./resume.docx" newTab shouldDownload/>
+            <Tile title="Download PDF" tileStyle={styles.PDFTile} linkTo="/Resumes/Collin Vesel Resume.pdf" newTab shouldDownload/>
+            <Tile title="Download Word doc" tileStyle={styles.WordDocTile} linkTo="/Resumes/Collin Vesel Resume.docx" newTab shouldDownload/>
         </main>
     </>
 }
