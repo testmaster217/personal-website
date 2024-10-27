@@ -22,7 +22,7 @@ export default function ModalPage({
 
     const returnLink = pathname.substring(0, pathname.lastIndexOf("/")) === "" ? "/" : pathname.substring(0, pathname.lastIndexOf("/"));
 
-    return <dialog ref={pageDialog}>
+    return <dialog ref={pageDialog} className={styles.ModalPage}>
         <Link autoFocus href={returnLink} className={styles.CloseBtn} onClick={() => pageDialog.current && pageDialog.current.close()}>X</Link>
         {children}
     </dialog>
