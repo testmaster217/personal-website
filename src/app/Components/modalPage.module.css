@@ -16,10 +16,9 @@
     padding: 1em;
 }
 
-.CloseBtn {
+.HomeBtn {
     text-decoration: none;
-    color: white;
-    background-color: rgb(173, 22, 22);
+    color: black;
     width: 2em;
     height: 2em;
     text-align: center;
@@ -27,14 +26,15 @@
     transition-duration: 0.1s;
 }
 
-.CloseBtn:hover,
-.CloseBtn:focus {
-    background-color: rgb(237, 22, 22);
+.HomeBtn:hover,
+.HomeBtn:focus {
+    background-color: #bfbfcf;
     transition-duration: 0.1s;
 }
 
-.CloseBtn:active {
-    background-color: rgb(255, 73, 73);
+.HomeBtn:active {
+    background-color: black;
+    color: white;
     transition-duration: 0.1s;
 }
 
