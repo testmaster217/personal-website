@@ -1,20 +1,5 @@
 /* Mobile styling by default and desktop styling in a media query bc
 I've heard that's a best practice. */
-.SiteTitle {
-    text-align: center;
-    margin-block: 1em;
-}
-
-.SiteTitleHeader {
-    margin: 0;
-    font-size: 3em;
-}
-
-.SiteTitleSubheader {
-    font-size: 1.75em;
-    margin-block: 0 0.5em;
-}
-
 .HomeGrid {
     display: grid;
     grid-template-columns: repeat(3, calc(33vw - 2.34em));

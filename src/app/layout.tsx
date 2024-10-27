@@ -29,9 +29,9 @@ export default function RootLayout({
         {/* This is the homepage's content. It's here instead of in page.tsx
         because I wanted it to be in the background of other open pages and this
         is how I figued I could do it. */}
-        <header className={styles.SiteTitle}>
-          <h1 className={styles.SiteTitleHeader}>I'm Collin Vesel</h1>
-          <p className={styles.SiteTitleSubheader}>and I made some things</p>
+        <header>
+          <h1>I'm Collin Vesel</h1>
+          <p>and I made some things</p>
         </header>
         <main className={styles.HomeGrid}>
           <Tile title="Bio" linkTo="/bio" tileStyle={styles.BioTile}/>
