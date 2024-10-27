@@ -6,7 +6,7 @@ body {
     background-color: #efefff;
 }
 
-body main {
+body > main {
     flex-grow: 1;
 }
 
@@ -37,6 +37,7 @@ dialog {
     border: none;
     background-color: #efefff;
     padding: 0;
+    max-width: calc(100% - 2em);
 }
 
 dialog::backdrop {

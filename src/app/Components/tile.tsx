@@ -2,14 +2,15 @@ import Link from 'next/link';
 
 import styles from './tile.module.css';
 
-export default function Tile({title, tileStyle, linkTo, newTab}: {
+export default function Tile({title, tileStyle, linkTo, newTab, shouldDownload}: {
     title: string,
     tileStyle: string,
     linkTo?: string,
-    newTab?: boolean
+    newTab?: boolean,
+    shouldDownload?: boolean
 }) {
     if (linkTo)
-        return <Link href={linkTo} className={`${styles.Tile} ${tileStyle}`} target={newTab ? "_blank" : "_self"}>
+        return <Link href={linkTo} className={`${styles.Tile} ${tileStyle}`} target={newTab ? "_blank" : "_self"} download={shouldDownload}>
             <span className={styles.TileTitle}>{title}</span>
         </Link>;
 

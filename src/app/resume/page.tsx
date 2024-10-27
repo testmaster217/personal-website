@@ -1,3 +1,7 @@
+import Tile from "../Components/tile";
+
+import styles from './page.module.css'
+
 export default function Resume() {
     return <>
         <header>
@@ -8,9 +12,9 @@ export default function Resume() {
                 Choose your format.
             </p>
         </header>
-        <main>
-            {/* TODO: Add tile button to download PDF. */}
-            {/* TODO: Add tile button to download Word doc. */}
+        <main className={styles.ResumeGrid}>
+            <Tile title="Download PDF" tileStyle={styles.PDFTile} linkTo="./resume.pdf" newTab shouldDownload/>
+            <Tile title="Download Word doc" tileStyle={styles.WordDocTile} linkTo="./resume.docx" newTab shouldDownload/>
         </main>
     </>
 }
