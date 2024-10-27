@@ -1,4 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
+
+import mePic from "./collin_vesel_at_desk.jpeg";
+
+import styles from './page.module.css';
 
 export default function Bio() {
     return <>
@@ -8,7 +13,12 @@ export default function Bio() {
         </header>
         <main>
             <article>
-                {/* TODO: Add photo of me. */}
+                <Image
+                    src={mePic}
+                    alt="A picture of me sitting at my desk trying to look friendly. I have my computer open in the background with some of my code open."
+                    className={styles.MePic}
+                    priority
+                />
                 <p>My name is Collin Vesel, and I am a software engineer.</p>
                 <p>
                     I fell in love with programming and the creative power it gave 
