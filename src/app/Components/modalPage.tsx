@@ -19,7 +19,7 @@ export default function ModalPage({
 
     useEffect(() => {
         if (pathname.match(/\/./) && pageDialog.current && !pageDialog.current.open)
-            pageDialog.current && pageDialog.current.showModal();
+            pageDialog.current.showModal();
     }, [pathname]);
 
     const returnLink = pathname.substring(0, pathname.lastIndexOf("/")) === "" ? "/" : pathname.substring(0, pathname.lastIndexOf("/"));

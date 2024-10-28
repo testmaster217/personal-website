@@ -30,7 +30,7 @@ export default function RootLayout({
         because I wanted it to be in the background of other open pages and this
         is how I figued I could do it. */}
         <header>
-          <h1>I'm Collin Vesel</h1>
+          <h1>I&apos;m Collin Vesel</h1>
           <p>and I made some things</p>
         </header>
         <main className={styles.HomeGrid}>

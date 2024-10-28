@@ -33,14 +33,14 @@ export default function Bio() {
                     detail-oriented. In college, I would often start working on a 
                     major assignment as soon as it was available or anounced, would 
                     continue working on it until right before the deadline, would 
-                    think, "It's not as good as I'd like, but it's good enough" as 
+                    think, &quot;It&apos;s not as good as I&apos;d like, but it&apos;s good enough&quot; as 
                     I was about to submit it, and then would get full credit for it 
                     because I had done a better job than I realized or was trying to do.
                 </p>
                 <p>
                     All of this led me to complete a software engineering internship 
                     at Enterprise Holdings in the summer of 2022, graduate summa cum 
-                    laude with a Bachelor's of Science in Computer Science the 
+                    laude with a Bachelor&apos;s of Science in Computer Science the 
                     following spring, earn a Coursera certification in frontend 
                     development from Meta in the fall of 2024, and develop multiple 
                     personal projects like this website. (You can check out several 
@@ -65,23 +65,23 @@ export default function Bio() {
                     from seeing much else without Windows Magnifier (which reminds me, 
                     I should probably use that to finish writing this...🙃). And I have 
                     a <em>massive</em> amount of ideas for what to do with all of this 
-                    (which I affectionately refer to as my "Dragon's Hoard of iCloud Notes").
+                    (which I affectionately refer to as my &quot;Dragon&apos;s Hoard of iCloud Notes&quot;).
                 </p>
                 <p>
-                    The only thing I don't have is 3+ years of professional experience.
+                    The only thing I don&apos;t have is 3+ years of professional experience.
                 </p>
                 <p>
                     If you would like to help me build up that experience, you can email 
                     me or message me on LinkedIn by going to <Link href="/socials">the 
-                    "Socials" page</Link> on this site. I will respond to you quickly.
+                    &quot;Socials&quot; page</Link> on this site. I will respond to you quickly.
                 </p>
                 <p>
                     I look forward to hearing from you. :)
                 </p>
                 <p>
-                    P.S., I know there's not much to this site yet. It's what I thought 
+                    P.S., I know there&apos;s not much to this site yet. It&apos;s what I thought 
                     would be a minimum viable product right now. However, I have many 
-                    updates planned and I'm excited for you to see what else I add. ;)
+                    updates planned and I&apos;m excited for you to see what else I add. ;)
                 </p>
             </article>
         </main>
