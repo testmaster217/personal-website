@@ -17,10 +17,12 @@
 
 @media only screen and (min-width: 52em) and (orientation: landscape) {
     .ResumeGrid {
-        width: calc(150vh - 13.5em);
+        /* width: calc(150vh - 13.5em); */
+        width: fit-content;
         margin: auto;
-        grid-template-columns: repeat(3, calc(25vh - 2.75em));
-        grid-auto-rows: calc(25vh - 2.75em);
+        /* grid-template-columns: repeat(3, calc(25vh - 2.75em)); */
+        grid-template-columns: repeat(2, calc(50vh));
+        grid-auto-rows: calc(50vh);
         gap: 1em;
     }
 }

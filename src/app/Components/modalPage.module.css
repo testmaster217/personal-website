@@ -19,7 +19,8 @@
 .HomeBtn {
     text-decoration: none;
     color: black;
-    width: 2em;
+    background-color: #d7d7e7;
+    /* width: 2em; */
     height: 2em;
     text-align: center;
     line-height: 2em;
