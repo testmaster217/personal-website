@@ -1,3 +1,7 @@
+// WARNING: This file causes errors when trying to make a production build.
+// I have no idea how to fix them other than removing the file and doing
+// something different. I hope to figure this out at some point.
+
 "use client"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
