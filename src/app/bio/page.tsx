@@ -33,7 +33,7 @@ export default function Bio() {
                     detail-oriented. In college, I would often start working on a 
                     major assignment as soon as it was available or anounced, would 
                     continue working on it until right before the deadline, would 
-                    think, &quot;It&apos;s not as good as I&apos;d like, but it&apos;s good enough&quot; as 
+                    think, &quot;It&apos;s not as good as I&apos;d like, but it&apos;s good enough&quot;, as 
                     I was about to submit it, and then would get full credit for it 
                     because I had done a better job than I realized or was trying to do.
                 </p>
