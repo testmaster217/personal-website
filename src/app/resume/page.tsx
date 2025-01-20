@@ -1,10 +1,11 @@
 import Tile from "../Components/tile";
 
 import styles from './page.module.css'
+import { orbitron } from "../fonts";
 
 export default function Resume() {
     return <>
-        <header>
+        <header className={orbitron.className}>
             <h1>
                 Resume
             </h1>

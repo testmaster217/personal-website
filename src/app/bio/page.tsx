@@ -4,10 +4,11 @@ import Image from "next/image";
 import mePic from "./collin_vesel_at_desk.jpeg";
 
 import styles from './page.module.css';
+import { orbitron, michroma } from "../fonts";
 
 export default function Bio() {
     return <>
-        <header>
+        <header className={orbitron.className}>
             <h1>Bio</h1>
             <p>A little bit about me.</p>
         </header>

@@ -4,10 +4,9 @@ import Link from "next/link";
 
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-// import { faHouse } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./modalPage.module.css";
-// import Icon from "./icon";
+import { michroma } from "../fonts";
 
 export default function ModalPage({
     children
@@ -26,8 +25,7 @@ export default function ModalPage({
 
     return <dialog ref={pageDialog} className={styles.ModalPage}>
         <div className={styles.ModalBar}>
-            <Link autoFocus href={returnLink} className={styles.HomeBtn} onClick={() => pageDialog.current && pageDialog.current.close()}>
-                {/* <Icon iconName={faHouse} accessibleTitle="Home"/> */}
+            <Link autoFocus href={returnLink} className={`${styles.HomeBtn} ${michroma.className}`} onClick={() => pageDialog.current && pageDialog.current.close()}>
                 HOME
             </Link>
         </div>

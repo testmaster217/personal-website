@@ -25,11 +25,11 @@ header p {
     margin-block: 0;
 }
 
-h1, h1 + p {
+/* h1, h1 + p {
     font-family: 'Cascadia Code', sans-serif;
-}
+} */
 
-p, a, span {
+p {
     font-family: sans-serif;
 }
 

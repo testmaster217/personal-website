@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import styles from './tile.module.css';
+import { michroma } from '../fonts';
 
 export default function Tile({title, tileStyle, linkTo, newTab, shouldDownload}: {
     title: string,
@@ -10,7 +11,7 @@ export default function Tile({title, tileStyle, linkTo, newTab, shouldDownload}:
     shouldDownload?: boolean
 }) {
     if (linkTo)
-        return <Link href={linkTo} className={`${styles.Tile} ${tileStyle}`} target={newTab ? "_blank" : "_self"} download={shouldDownload}>
+        return <Link href={linkTo} className={`${styles.Tile} ${tileStyle} ${michroma.className}`} target={newTab ? "_blank" : "_self"} download={shouldDownload}>
             <span className={styles.TileTitle}>{title}</span>
         </Link>;
 

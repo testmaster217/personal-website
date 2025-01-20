@@ -1,10 +1,11 @@
 import Tile from "../Components/tile";
 
 import styles from './page.module.css'
+import { orbitron } from "../fonts";
 
 export default function Socials() {
     return <>
-        <header>
+        <header className={orbitron.className}>
             <h1>Socials</h1>
             <p>All the ways you can contact me.</p>
         </header>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import styles from './homepage.module.css';
+import { orbitron } from "./fonts";
 
 import ModalPage from "./Components/modalPage";
 import Tile from "./Components/tile";
@@ -30,8 +31,8 @@ export default function RootLayout({
         because I wanted it to be in the background of other open pages and this
         is how I figued I could do it. */}
         <header>
-          <h1>I&apos;m Collin Vesel</h1>
-          <p>and I made some things</p>
+          <h1 className={orbitron.className}>I&apos;m Collin Vesel</h1>
+          <p className={orbitron.className}>and I made some things</p>
         </header>
         <main className={styles.HomeGrid}>
           <Tile title="Bio" linkTo="/bio" tileStyle={styles.BioTile}/>
