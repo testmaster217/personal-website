@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 import styles from "./modalPage.module.css";
-import { michroma } from "../fonts";
+import { oxanium } from "../fonts";
 
 export default function ModalPage({
     children
@@ -25,7 +25,7 @@ export default function ModalPage({
 
     return <dialog ref={pageDialog} className={styles.ModalPage}>
         <div className={styles.ModalBar}>
-            <Link autoFocus href={returnLink} className={`${styles.HomeBtn} ${michroma.className}`} onClick={() => pageDialog.current && pageDialog.current.close()}>
+            <Link autoFocus href={returnLink} className={`${styles.HomeBtn} ${oxanium.className}`} onClick={() => pageDialog.current && pageDialog.current.close()}>
                 HOME
             </Link>
         </div>

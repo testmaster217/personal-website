@@ -1,9 +1,8 @@
-import { Orbitron, Michroma } from 'next/font/google';
+import { Orbitron, Oxanium } from 'next/font/google';
 
 export const orbitron = Orbitron({
     fallback: ['sans-serif']
 });
-export const michroma = Michroma({
-    weight: '400',
+export const oxanium = Oxanium({
     fallback: ['sans-serif']
-})
+});

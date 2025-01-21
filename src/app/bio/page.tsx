@@ -4,7 +4,7 @@ import Image from "next/image";
 import mePic from "./collin_vesel_at_desk.jpeg";
 
 import styles from './page.module.css';
-import { orbitron, michroma } from "../fonts";
+import { orbitron, oxanium } from "../fonts";
 
 export default function Bio() {
     return <>
@@ -13,7 +13,7 @@ export default function Bio() {
             <p>A little bit about me.</p>
         </header>
         <main>
-            <article>
+            <article className={oxanium.className}>
                 <Image
                     src={mePic}
                     alt="A picture of me sitting at my desk trying to look friendly. I have my computer open in the background with some of my code open."
