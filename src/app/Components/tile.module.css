@@ -13,6 +13,7 @@
     text-decoration: none;
     transition-duration: 0.1s;
     transition-timing-function: linear;
+    background-image: radial-gradient(ellipse 100% 50% at top, rgb(153, 223, 153), green);
 }
 
 @media only screen and (hover) {
