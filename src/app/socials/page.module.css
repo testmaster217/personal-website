@@ -7,18 +7,6 @@
     margin: 1em auto;
 }
 
-.EmailTile {
-    background-color: gray;
-}
-
-.LinkedInTile {
-    background-color: #0965c0;
-}
-
-.GitHubTile {
-    background-color: #010409;
-}
-
 @media only screen and (min-width: 52em) and (orientation: landscape) {
     .SocialsGrid {
         width: calc(150vh - 13.5em);
