@@ -13,6 +13,13 @@
         margin: auto;
         grid-template-columns: repeat(3, calc(25vh - 2.75em));
         grid-auto-rows: calc(25vh - 2.75em);
+    }
+}
+
+/* If you're using a mouse, the gaps between the tiles will be smaller since I */
+/* think it looks beter. */
+@media only screen and (pointer: fine) {
+    .HomeGrid {
         gap: 1em;
     }
 }
