@@ -82,7 +82,9 @@ for when I have more tiles. I will use it when I add those. */
 
 /* Desktop styling.
 (Only works in landscape mode to avoid breaking on iPads in portrait mode. */
-@media only screen and (min-width: 52em) and (orientation: landscape) {
+@media only screen
+ /* and (min-width: 52em) */
+ and (orientation: landscape) {
     .SiteTitle {
         margin-block: 0;
     }
