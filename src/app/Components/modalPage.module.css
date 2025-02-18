@@ -1,6 +1,7 @@
 .ModalPage {
     width: calc(100vw - 2em);
     margin: 1em auto;
+    overscroll-behavior: contain;
 }
 
 .ModalBar {
