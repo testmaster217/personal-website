@@ -19,7 +19,7 @@
 /* If you're using a mouse, the gaps between the tiles will be smaller since I */
 /* think it looks beter. */
 @media only screen and (pointer: fine) {
-    .HomeGrid {
+    .SocialsGrid {
         gap: 1em;
     }
 }
