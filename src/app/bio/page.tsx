@@ -80,8 +80,7 @@ export default function Bio() {
                     I look forward to hearing from you. :)
                 </p>
                 <p>
-                    P.S., I know there&apos;s not much to this site yet. It&apos;s what I thought 
-                    would be a minimum viable product right now. However, I have many 
+                    P.S., I know there&apos;s not much to this site yet. However, I have many 
                     updates planned and I&apos;m excited for you to see what else I add. ;)
                 </p>
             </article>
