@@ -15,7 +15,7 @@ tar -xzvf ./personal-website-build.tar.gz -C ./personal-website-build
 cd ./personal-website-build
 
 # Install all packages
-npm install
+npm install --ignore-scripts --omit=dev
 
 # Start the program with PM2, or restart if an older version is already running.
 [ -z "$(pm2 id "npm run start" | grep -e "[[:digit:]]")" ] && pm2 start "npm run start" --watch
