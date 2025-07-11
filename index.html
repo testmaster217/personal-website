@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 <html lang="en-US">
+    <!--
+        This page serves as both the site's homepage and the place where all
+        content and metadata is set. Because all other pages on this site are just
+        HTML fragments that get injected into this page, if any of them are visited
+        before this one, this one will need to be fetched as well so the page can be
+        rebuilt properly.
+        Reusable components used throughout the site are also fetched whenever this
+        page is loaded (including when another page fetches it), but for ease of
+        maintenance, these components are kept in separate files and fetched on page
+        load.
+    -->
     <head>
         <!-- Basic info -->
         <title>Collin Vesel</title>
@@ -12,127 +23,30 @@
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
 
         <!-- My own styles -->
-        <link href="styles.css" rel="stylesheet"/>
     </head>
     <body>
-        <!-- COMPONENTS -->
-        <template class="Component" id="modal-page-tmplt">
-            <style>
-                .ModalPage {
-                    width: calc(100vw - 2em);
-                    margin: 1em auto;
-                    overscroll-behavior: contain;
-                }
-
-                .ModalBar {
-                    display: flex;
-                    position: sticky;
-                    top: 0%;
-                    left: 0%;
-                    right: 0%;
-                    background-color: #efefff;
-                }
-
-                .ModalContent {
-                    padding: 1em;
-                    padding-top: 0em;
-                }
-
-                .ModalPageHomeBtn {
-                    text-decoration: none;
-                    color: black;
-                    background-color: #d7d7e7;
-                    /* width: 2em; */
-                    height: 2em;
-                    text-align: center;
-                    line-height: 2em;
-                    transition-duration: 0.1s;
-                }
-
-                .ModalPageHomeBtn:hover,
-                .ModalPageHomeBtn:focus {
-                    background-color: #bfbfcf;
-                    transition-duration: 0.1s;
-                }
-
-                .ModalPageHomeBtn:active {
-                    background-color: black;
-                    color: white;
-                    transition-duration: 0.1s;
-                }
-
-                @media only screen
-                /* and (min-width: 52em) */
-                and (orientation: landscape) {
-                    .ModalPage {
-                        width: calc(150vh - 11.5em);
-                        margin: auto;
-                    }
-                }
-            </style>
-
-            <dialog class="ModalPage">
-                <div class="ModalBar">
-                    <a autofocus
-                        id="back-or-home-btn"
-                        href="/"
-                        class="ModalPageHomeBtn oxanium-collinvesel"
-                    >HOME</a>
-                    <script>
-                        // TODO: Make this code run whenever `location.pathname` changes
-                        const backOrHomeBtn = document.getElementById("back-or-home-btn");
-                        let parentPath = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
-                        if (parentPath === ""){
-                            backOrHomeBtn.setAttribute("href", "/");
-                            backOrHomeBtn.innerText = "HOME";
-                        } else {
-                            backOrHomeBtn.setAttribute("href", parentPath);
-                            backOrHomeBtn.innerText = "BACK"
-                        }
-
-                        // This should run in addition to navigating to the new page.
-                        backOrHomeBtn.addEventListener("click", () => {
-                            // Close the <dialog> if we went home.
-                            if (parentPath === "/") backOrHomeBtn.parentElement.parentElement.close();
-                        });
-                    </script>
-                </div>
-
-                <div class="ModalContent">
-                    <slot>
-                        <header class="orbitron-collinvesel">
-                            <h1>There should be content here...</h1>
-                            <p>...but somehow, there isn't. How did you do that?</p>
-                        </header>
-                    </slot>
-                </div>
-            </dialog>
-        </template>
-
-        <!-- Script for COMPONENTS -->
-        <script id="ComponentsScript">
-            // Dialog common content, layout, etc.
-            customElements.define("modal-page", class ModalPage extends HTMLElement {
-                constructor() {
-                    super();
-                    const templateContent = document.getElementById("modal-page-tmplt").content;
-                    const shadowRoot = this.attachShadow({mode: "open"});
-                    shadowRoot.appendChild(templateContent.cloneNode(true))
-                }
-            });
-        </script>
-        <!-- END OF COMPONENTS -->
-
-        <!-- The content of most pages on this site goes inside this <dialog> when it's open. -->
-        <modal-page id="homepage-dialog"></modal-page>
-
-        <!-- Homepage content -->
-        <header class="orbitron-collinvesel">
+        <!-- Homepage header -->
+        <header>
             <h1>I&apos;m Collin Vesel</h1>
             <p>and I made some things</p>
         </header>
+        <!-- Homepage tiles -->
         <main>
-            <!-- TODO: Add the three tiles -->
+            <a href="bio">Bio</a>
+            <a href="resume">Resume</a>
+            <a href="socials">Socials</a>
         </main>
+        <!-- Homepage footer -->
+        <footer>
+            <!--
+                TODO: I want to add a "legal" page with more details about what
+                rights you have with this website and add a link to it. Also link
+                the words "MIT License" to a specific section of that page with a
+                copy of the license.
+            -->
+            <code>Version 0.3.0</code>
+            <small>&copy; 2024 Collin Vesel. All rights reserved unless otherwise indicated.</small>
+            <small>This site is <a href="https://github.com/testmaster217/personal-website">open source</a> under the MIT License.</small>
+        </footer>
     </body>
 </html>
