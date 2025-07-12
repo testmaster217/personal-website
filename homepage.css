@@ -29,19 +29,32 @@ header h1, header p {
 }
 
 /*
+    Block margin for <main> so it's spaced out from the <footer> better like it is
+    with the <header>.
+*/
+main {
+    margin-block: 1em;
+}
+
+/*
     Main should lay its tiles out vertically in portrait mode, and horizontally in
     landscsape mode. It should be centered horizontally in both cases and should
-    probably be a flexbox.
+    probably be a flexbox. There should also be enough of a gap between the tiles
+    to avoid the "giant button problem" that a UI like this may have. The "align-
+    items: flex-start" in landscape mode is to help make the tiles square while
+    being aligned properly.
 */
 .HomescreenTiles {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     flex-direction: column;
+    gap: 2.5em;
 }
 @media only screen and (orientation: landscape) {
     .HomescreenTiles {
         flex-direction: row;
+        align-items: flex-start;
     }
 }
 
@@ -51,11 +64,12 @@ header h1, header p {
     tall enough to be comfortable, but short enough so that all content on at least
     the top tile is visible on the screen without scrolling. Use the old version of
     the site as inspiration. The tiles' styles should be applied to a class rather
-    than to the a elements that I'm currently using as I plan on replacing those
+    than to the <a> elements that I'm currently using as I plan on replacing those
     with custom components.
 */
-.HomescreenTiles .Tile {
-    margin: 1.25em;
+.Tile {
+    flex: 1;
+    aspect-ratio: 1;
 }
 
 /*
