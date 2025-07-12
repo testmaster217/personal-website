@@ -1,0 +1,81 @@
+/* Only dealing with layout for now. */
+
+/*
+    Body should be at least as tall as the screen. This plus making it a flexbox
+    and setting it's immediate child <main> element's "flex-grow" to 1 are necessary
+    to make the footer always appear at the bottom of the screen.
+*/
+body {
+    min-height: 100vh;
+    padding: 1em;
+    margin: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+body > main {
+    flex-grow: 1;
+}
+
+/*
+    Header should be centered horizontally and aligned with the top of the page.
+    Its children should be able to wrap their text as necessary to fit comfortably
+    on the screen without overflowing horizontally, and the header should grow
+    downward as necessary to accomodate them.
+*/
+header {
+    text-align: center;
+    margin: 1em;
+}
+
+/*
+    Make the h1 and the p inside the header not be spaced apart weirdly. May need
+    to adjust this spacing when I add the correct font.
+*/
+header h1, header p {
+    margin: 0;
+}
+
+/*
+    Main should lay its tiles out vertically in portrait mode, and horizontally in
+    landscsape mode. It should be centered horizontally in both cases and should
+    probably be a flexbox.
+*/
+.HomescreenTiles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+}
+@media only screen and (orientation: landscape) {
+    .HomescreenTiles {
+        flex-direction: row;
+    }
+}
+
+/*
+    These tiles should take up most of the width of the screen in portrait mode and
+    be smaller squares in landscape mode. Their height in portrait mode should be
+    tall enough to be comfortable, but short enough so that all content on at least
+    the top tile is visible on the screen without scrolling. Use the old version of
+    the site as inspiration. The tiles' styles should be applied to a class rather
+    than to the a elements that I'm currently using as I plan on replacing those
+    with custom components.
+*/
+.HomescreenTiles .Tile {
+    margin: 1.25em;
+}
+
+/*
+    Footer should also be a flexbox. If the three items in the footer each need
+    their own line, they should all be left-justified. If they can all share one
+    line, they should be left-right justified. If two can share one line but the
+    third needs a separate one, the two that share a line should be left-right
+    justified while the third one is left-justified. This is achieved with "flex-
+    wrap: wrap" and "justify-content: space-between".
+*/
+footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

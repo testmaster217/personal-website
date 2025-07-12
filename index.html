@@ -12,10 +12,11 @@
         load.
     -->
     <head>
-        <!-- Basic info -->
+        <meta charset="utf-8"/>
         <title>Collin Vesel</title>
         <link href="favicon.ico" rel="icon"/>
         <meta name="description" content="My personal website. Includes some basic information about me and I hope to add (many) other features soon. :)"/>
+        <meta name="Viewport" content="width=device-width, initial-scale=1.0"/>
 
         <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,6 +24,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Oxanium:wght@200..800&display=swap" rel="stylesheet">
 
         <!-- My own styles -->
+        <link rel="stylesheet" href="homepage.css"/>
     </head>
     <body>
         <!-- Homepage header -->
@@ -31,10 +33,10 @@
             <p>and I made some things</p>
         </header>
         <!-- Homepage tiles -->
-        <main>
-            <a href="bio">Bio</a>
-            <a href="resume">Resume</a>
-            <a href="socials">Socials</a>
+        <main class="HomescreenTiles">
+            <a class="Tile" href="bio">Bio</a>
+            <a class="Tile" href="resume">Resume</a>
+            <a class="Tile" href="socials">Socials</a>
         </main>
         <!-- Homepage footer -->
         <footer>
@@ -44,6 +46,7 @@
                 the words "MIT License" to a specific section of that page with a
                 copy of the license.
             -->
+            <!-- TODO: Maybe change the ARIA role of the version number. -->
             <code>Version 0.3.0</code>
             <small>&copy; 2024 Collin Vesel. All rights reserved unless otherwise indicated.</small>
             <small>This site is <a href="https://github.com/testmaster217/personal-website">open source</a> under the MIT License.</small>
