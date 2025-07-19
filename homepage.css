@@ -1,12 +1,26 @@
-/* Only dealing with layout for now. */
+/* Google Fonts */
+.orbitron-collinvesel {
+    font-family: "Orbitron", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+.oxanium-collinvesel {
+    font-family: "Oxanium", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+/* Main styles */
 
 /*
     Body should be at least as tall as the screen. This plus making it a flexbox
     are necessary to make the footer always appear at the bottom of the screen.
 */
 body {
-    padding: 1em;
     box-sizing: border-box;
+    padding: 1em;
+
+    background-color: #efefff;
 }
 
 /*
@@ -37,12 +51,32 @@ main {
 }
 
 /*
+    Styling for most links.
+*/
+a {
+    color: blue;
+    transition: 0.3s;
+}
+a:visited {
+    color: #464669;
+}
+a:hover {
+    color: #005f00;
+}
+a:active {
+    color: #6a4c00;
+}
+
+/*
     Main should lay its tiles out vertically in portrait mode, and horizontally in
     landscsape mode. It should be centered horizontally in both cases and should
     probably be a flexbox. There should also be enough of a gap between the tiles
     to avoid the "giant button problem" that a UI like this may have. The "align-
     items: flex-start" in landscape mode is to help make the tiles square while
-    being aligned properly.
+    being aligned properly. If the screen is in landscape mode and is wider than
+    a certain size, the tiles' container should be set to a constant size and
+    should not get bigger as the screen gets wider (so that the tiles are hopefully
+    not too big).
 */
 .HomescreenTiles {
     display: flex;
@@ -55,6 +89,12 @@ main {
     .HomescreenTiles {
         flex-direction: row;
         align-items: flex-start;
+    }
+    @media only screen and (orientation: landscape) and (min-width: 67em) {
+        .HomescreenTiles {
+            width: 65em;
+            margin: auto;
+        }
     }
 }
 
@@ -69,7 +109,47 @@ main {
 */
 .Tile {
     flex: 1;
-    aspect-ratio: 1;
+    display: flex;
+    align-items: flex-end;
+    box-sizing: border-box;
+    padding: 0.5em;
+
+    background-color: green;
+    background-image: radial-gradient(ellipse 100% 50% at top, rgba(226, 226, 226, 0.75), transparent);
+    color: white;
+    text-decoration: none;
+
+    scale: none;
+    transition: 0.1s linear;
+}
+.Tile:visited {
+    color: white;
+}
+@media only screen and (hover) {
+    .Tile:hover,
+    .Tile:focus {
+        color: white;
+
+        scale: 105%;
+    }
+}
+.Tile:active {
+    color: white;
+
+    scale: 97.5%
+}
+/*
+    I have no idea why, but for some reason, setting the "aspect-ratio" property in
+    portrait mode causes the tiles to be different sizes, whereas I want them to be
+    the same size. Sill need to set it in landscape mode for the tiles to be square,
+    though.
+*/
+@media only screen and (orientation: landscape) {
+    .Tile {
+        width: calc((100% - 5em) / 3);
+        min-width: 10em;
+        aspect-ratio: 1;
+    }
 }
 
 /*
@@ -92,7 +172,7 @@ footer {
     immediately before the footer should have a "flex-grow" of 1 so that it expands
     to fill any remaining space if the content is shorter than the screen.
 */
-:has(footer) {
+:has(> footer) {
     min-height: 100vh;
     margin: 0;
     display: flex;
@@ -100,4 +180,11 @@ footer {
 }
 :has(+ footer) {
     flex-grow: 1;
+}
+
+/*
+    Non-layout styling for the footer.
+*/
+footer code {
+    font-size: smaller;
 }

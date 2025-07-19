@@ -28,18 +28,18 @@
     </head>
     <body>
         <!-- Homepage header -->
-        <header>
+        <header class="orbitron-collinvesel">
             <h1>I&apos;m Collin Vesel</h1>
             <p>and I made some things</p>
         </header>
         <!-- Homepage tiles -->
         <main class="HomescreenTiles">
-            <a class="Tile" href="bio">Bio</a>
-            <a class="Tile" href="resume">Resume</a>
-            <a class="Tile" href="socials">Socials</a>
+            <a class="Tile oxanium-collinvesel" href="bio">Bio</a>
+            <a class="Tile oxanium-collinvesel" href="resume">Resume</a>
+            <a class="Tile oxanium-collinvesel" href="socials">Socials</a>
         </main>
         <!-- Homepage footer -->
-        <footer>
+        <footer class="oxanium-collinvesel">
             <!--
                 TODO: I want to add a "legal" page with more details about what
                 rights you have with this website and add a link to it. Also link
@@ -47,7 +47,12 @@
                 copy of the license.
             -->
             <!-- TODO: Maybe change the ARIA role of the version number. -->
-            <code>Version 0.3.0</code>
+             <!--
+                <code> has the font class in addition to the parent <footer>
+                because for some reaosn the <code>'s own style overrode the
+                <footer>'s
+            -->
+            <code class="oxanium-collinvesel">Version 0.3.0</code>
             <small>&copy; 2024 Collin Vesel. All rights reserved unless otherwise indicated.</small>
             <small>This site is <a href="https://github.com/testmaster217/personal-website">open source</a> under the MIT License.</small>
         </footer>
