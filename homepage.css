@@ -15,10 +15,15 @@
 /*
     Body should be at least as tall as the screen. This plus making it a flexbox
     are necessary to make the footer always appear at the bottom of the screen.
+
+    "min-width: 12em" is to make sure that the screen is properly scrollable in the
+    unlikely event that it is too narrow to display even one tile at its smallest
+    possible size.
 */
 body {
     box-sizing: border-box;
     padding: 1em;
+    min-width: 12em;
 
     background-color: #efefff;
 }
@@ -68,44 +73,100 @@ a:active {
 }
 
 /*
-    Main should lay its tiles out vertically in portrait mode, and horizontally in
-    landscsape mode. It should be centered horizontally in both cases and should
-    probably be a flexbox. There should also be enough of a gap between the tiles
-    to avoid the "giant button problem" that a UI like this may have. The "align-
-    items: flex-start" in landscape mode is to help make the tiles square while
-    being aligned properly. If the screen is in landscape mode and is wider than
-    a certain size, the tiles' container should be set to a constant size and
-    should not get bigger as the screen gets wider (so that the tiles are hopefully
-    not too big).
+    Main should be centered horizontally and should probably be a flexbox. There
+    should also be enough of a gap between the tiles to avoid the "giant button
+    problem" that a UI like this may have.
+
+    Because I want the tiles' position and size to ideally be controlled by their
+    parent element (".HomescreenTiles", in this case), the rules for how the
+    homescreen tiles should behave are included here:
+    - In all situations, the tiles should all be the same size and should be
+    square.
+    - If the screen is wide enough to fit all three tiles to fit on one line, the
+    container should not get wider with the screen.
+    - If the screen is not wide enough to fit all three tiles on one line, they
+    should wrap.
+    - The tiles have a minimum width of 10em and a maximum width of the screen
+    width minus the margin and gaps (2 gaps for three tiles oer line, 1 gap for
+    two tiles per line, or 0 gaps for one tile per line) divided by the number
+    of tiles per line, or 20em, whichever is less. The tiles should be as big
+    as possible within these constraints and the UI should prefer shrinking
+    them rather than wrapping them.
+    - If the screen isn't wide enough to fit even one tile at its smallest
+    possible size, then and only then should it be horizontally scrollable.
+    - Although the container should be horizontally centered, the tiles
+    themselves should be left-alined. They should also be wide enough to take up
+    the width of the screen if they don't all fit on one line, but the above rules
+    about their size should guarantee this.
 */
 .HomescreenTiles {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    flex-direction: column;
     gap: 2.5em;
+    max-width: calc(150vh + 5em);
+    margin-inline: auto;
+    align-content: flex-start;
 }
-@media only screen and (orientation: landscape) {
-    .HomescreenTiles {
-        flex-direction: row;
-        align-items: flex-start;
+.HomescreenTiles .Tile {
+    aspect-ratio: 1;
+    min-width: 10em;
+    max-width: 100%;
+}
+
+
+/*
+    Three states for the UI to look like:
+    1.  ---   2.  ---   ---   3.  ---   ---   ---
+       |   |     |   | |   |     |   | |   | |   |
+        ---       ---   ---       ---   ---   ---
+        ---       ---
+       |   |     |   |
+        ---       ---
+        ---
+       |   |
+        ---
+
+    - If the aspect ratio is taller than 3/4 or if the screen width is less than
+    24.5em (two tiles at minimum size plus the gap between them plus the inline
+    padding for the whole screen), use layout 1.
+    - If the aspect ratio is between 3/4 and 4/3 or if the screen width is between
+    24.5em and 37em (three tiles at the minimum size plus two gaps between them
+    plus inline padding for the whole screen), use layout 2.
+    - If the aspect ratio is wider than 4/3 or the screen width is more than 37em,
+    use layout 3, but set the max width of each tile at 50vh so that it doesn't
+    look weird for the few people who may be using an ultrawide monitor.
+*/
+
+
+/* If the aspect ratio is above 4:3, set max-width to 50vh */
+
+/* If the screen width is more than 67em, set max-width to 20em */
+/* @media only screen and (min-width: 67em) {
+    .HomescreenTiles .Tile {
+        max-width: 50vh;
     }
-    @media only screen and (orientation: landscape) and (min-width: 67em) {
-        .HomescreenTiles {
-            width: 65em;
-            margin: auto;
-        }
+} */
+/* If the screen width is between 37em and 67em, set max-width to (100% - 5em) / 3 */
+/* @media only screen and (min-width: 37em) and (max-width: 67em) {
+    .HomescreenTiles .Tile {
+        max-width: calc((100% - 5em) / 3);
+    }
+} */
+/*
+    If the screen width is between 24.5em and 37em or if the screen aspect ratio is
+    between 4:3 and 3:4, set max-width to (100% - 2.5em) / 2.
+*/
+@media only screen and ((24.5em <= width < 37em) or (3/4 <= aspect-ratio <= 4/3)) {
+    .HomescreenTiles .Tile {
+        max-width: calc((100% - 2.5em) / 2);
     }
 }
 
 /*
-    These tiles should take up most of the width of the screen in portrait mode and
-    be smaller squares in landscape mode. Their height in portrait mode should be
-    tall enough to be comfortable, but short enough so that all content on at least
-    the top tile is visible on the screen without scrolling. Use the old version of
-    the site as inspiration. The tiles' styles should be applied to a class rather
+    The tiles' styles should be applied to a class rather
     than to the <a> elements that I'm currently using as I plan on replacing those
-    with custom components.
+    with custom components. As much as possible, the tile's position and size
+    should be controlled by the tile's parent element rather than by this CSS class.
 */
 .Tile {
     flex: 1;
@@ -137,19 +198,6 @@ a:active {
     color: white;
 
     scale: 97.5%
-}
-/*
-    I have no idea why, but for some reason, setting the "aspect-ratio" property in
-    portrait mode causes the tiles to be different sizes, whereas I want them to be
-    the same size. Sill need to set it in landscape mode for the tiles to be square,
-    though.
-*/
-@media only screen and (orientation: landscape) {
-    .Tile {
-        width: calc((100% - 5em) / 3);
-        min-width: 10em;
-        aspect-ratio: 1;
-    }
 }
 
 /*
