@@ -73,9 +73,8 @@ a:active {
 }
 
 /*
-    Main should be centered horizontally and should probably be a flexbox. There
-    should also be enough of a gap between the tiles to avoid the "giant button
-    problem" that a UI like this may have.
+    Main should be centered horizontally and should have enough of a gap between
+    the tiles to avoid the "giant button problem" that a UI like this may have.
 
     Because I want the tiles' position and size to ideally be controlled by their
     parent element (".HomescreenTiles", in this case), the rules for how the
@@ -113,7 +112,6 @@ a:active {
     max-width: 100%;
 }
 
-
 /*
     Three states for the UI to look like:
     1.  ---   2.  ---   ---   3.  ---   ---   ---
@@ -126,17 +124,33 @@ a:active {
        |   |
         ---
 
-    - If the aspect ratio is taller than 3/4 or if the screen width is less than
+    - If the aspect ratio is taller than 3/4 OR if the screen width is less than
     24.5em (two tiles at minimum size plus the gap between them plus the inline
-    padding for the whole screen), use layout 1.
-    - If the aspect ratio is between 3/4 and 4/3 or if the screen width is between
+    padding for the whole screen), use layout 1. (This should be what the default
+    style does.)
+    - If the aspect ratio is between 3/4 and 4/3 OR if the screen width is between
     24.5em and 37em (three tiles at the minimum size plus two gaps between them
     plus inline padding for the whole screen), use layout 2.
-    - If the aspect ratio is wider than 4/3 or the screen width is more than 37em,
+    - If the aspect ratio is wider than 4/3 AND the screen width is more than 37em,
     use layout 3, but set the max width of each tile at 50vh so that it doesn't
     look weird for the few people who may be using an ultrawide monitor.
 */
-
+@media only screen and (
+    (3/4 <= aspect-ratio <= 4/3) or
+    (24.5em <= width < 37em)
+) {
+    .HomescreenTiles .Tile {
+        max-width: calc((100% - 2.5em) / 2);
+    }
+}
+@media only screen and (
+    (aspect-ratio > 4/3) and
+    (width >= 37em)
+) {
+    .HomescreenTiles .Tile {
+        max-width: calc((100% - 5em) / 3);
+    }
+}
 
 /* If the aspect ratio is above 4:3, set max-width to 50vh */
 
@@ -156,11 +170,11 @@ a:active {
     If the screen width is between 24.5em and 37em or if the screen aspect ratio is
     between 4:3 and 3:4, set max-width to (100% - 2.5em) / 2.
 */
-@media only screen and ((24.5em <= width < 37em) or (3/4 <= aspect-ratio <= 4/3)) {
+/* @media only screen and ((24.5em <= width < 37em) or (3/4 <= aspect-ratio <= 4/3)) {
     .HomescreenTiles .Tile {
         max-width: calc((100% - 2.5em) / 2);
     }
-}
+} */
 
 /*
     The tiles' styles should be applied to a class rather
