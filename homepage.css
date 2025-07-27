@@ -10,6 +10,24 @@
     font-style: normal;
 }
 
+/* Global variables */
+/*
+    NOTE: If changing any of these, make sure to also change any media queries that
+    depend on them. (As of this writing, you can't use CSS variables or functions
+    in media queries for some reason.)
+*/
+:root {
+    --screen-margin: 1em;
+    --tile-min-width: 10em;
+    --tile-max-width: 47vh;
+    /*
+        Using px instead of a relataive unit here because the gap between tiles
+        needs to be the same size relative to the user's finger no matter what
+        size screen they're using.
+    */
+    --tile-gap: 72px;
+}
+
 /* Main styles */
 
 /*
@@ -22,8 +40,8 @@
 */
 body {
     box-sizing: border-box;
-    padding: 1em;
-    min-width: 12em;
+    padding: var(--screen-margin);
+    min-width: calc(var(--screen-margin) + 2 * var(--tile-min-width));
 
     background-color: #efefff;
 }
@@ -36,7 +54,7 @@ body {
 */
 header {
     text-align: center;
-    margin: 1em;
+    margin: var(--screen-margin);
 }
 
 /*
@@ -52,7 +70,7 @@ header h1, header p {
     with the <header>.
 */
 main {
-    margin-block: 1em;
+    margin-block: var(--screen-margin);
 }
 
 /*
@@ -99,17 +117,76 @@ a:active {
     about their size should guarantee this.
 */
 .HomescreenTiles {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2.5em;
-    max-width: calc(150vh + 5em);
+    /* --num-columns: 1; */
+    /*
+        Unfortunately, in order for the UI to look good without issues, I needed to
+        make it dependent on both the screen width and the aspect ratio, and
+        unfortunately, the screen width is in terms of multiple different units
+        because the gaps between the grid columns /have/ to be specified in
+        absolute units anf everything else /has/ to be specified in relative units,
+        meaning that media queries weren't an option since I would need the
+        `calc()` function to add the different units together, and you can't (as
+        of this writing) use functions in vanilla CSS. This big, ugly formula is
+        what I came up with to determine the number of columns without using media
+        queries:
+        ```CSS
+        --num-columns: clamp(
+            1, clamp(
+                1, calc((100vw / 100vh) / 0.6 + 1),
+                calc(
+                    (100wv - 2 * --screen-margin + --tile-gap) /
+                    (--tile-min-width + --tile-gap)
+                )
+            ), 3
+        );
+        ```
+        Some things to unpack:
+        - The outer `clamp()` function is between 1 and 3 because that's how many
+        columns can exist.
+        - The inner `clamp()` function is between 1 and a formula for calculating
+        how many columns I would need just based on the screen width and not on
+        the aspect ratio. I started from "screen width (aka, `100vw`) equals the
+        two inline paddings from the body element (`2 * --screen-margin`) plus one
+        tile for each column (`--num-columns * --tile-min-width`) plus one less
+        than that many gaps between the columns
+        (`(--num-columns - 1) * --tile-gap`). I then solved for `--num-columns`,
+        and got the formula that I used as the upper limit of the inner `clamp()`.
+        - Through trial and error, I found that the best aspect ratio for the two-
+        column layout was between 0.6 and 1.2. Less than that range got the one-
+        column layout, and more got the three-column layout. In other words, the
+        number of columns I needed was just the aspect ratio integer divided by
+        0.6, and then add 1.
+        - Through the same trial and error, I found that at very specific screen
+        resolutions, the grid would use two columns when only one could fit, or
+        would use three columns when only two could fit, thus cutting the tiles
+        off at the right edge of the screen. This is why the screen width needed
+        to be considered, but I learned through earlier testing that using /only/
+        the screen width led to the grid wasting a lot of screen space, especially
+        in portrait mode, and this didn't look good. Thus, I use them both. I use
+        the result from the aspect-ratio formula, but keep it from adding an extra
+        column by clamping it to the result from the screen width formula.
+    */
+    --num-columns: clamp(
+            1, clamp(
+                1, calc((100vw / 100vh) / 0.6 + 1),
+                calc(
+                    (100wv - 2 * --screen-margin + --tile-gap) /
+                    (--tile-min-width + --tile-gap)
+                )
+            ), 3
+        );
+    display: grid;
+    grid-template-columns: repeat(var(--num-columns), 1fr);
+    grid-auto-rows: min-content;
+    gap: var(--tile-gap);
+    min-width: var(--tile-min-width);
+    width: 100%;
     margin-inline: auto;
-    align-content: flex-start;
 }
 .HomescreenTiles .Tile {
     aspect-ratio: 1;
-    min-width: 10em;
-    max-width: 100%;
+    min-width: var(--tile-min-width);
+    width: 100%;
 }
 
 /*
@@ -124,57 +201,24 @@ a:active {
        |   |
         ---
 
-    - If the aspect ratio is taller than 3/4 OR if the screen width is less than
-    24.5em (two tiles at minimum size plus the gap between them plus the inline
-    padding for the whole screen), use layout 1. (This should be what the default
-    style does.)
-    - If the aspect ratio is between 3/4 and 4/3 OR if the screen width is between
-    24.5em and 37em (three tiles at the minimum size plus two gaps between them
-    plus inline padding for the whole screen), use layout 2.
-    - If the aspect ratio is wider than 4/3 AND the screen width is more than 37em,
-    use layout 3, but set the max width of each tile at 50vh so that it doesn't
-    look weird for the few people who may be using an ultrawide monitor.
+    - If the aspect ratio is taller than 13/20, use layout 1. (This should be what
+    the default style does.)
+    - If the aspect ratio is between 13/20 and 20/13, use layout 2.
+    - If the aspect ratio is wider than 20/13, use layout 3, but set the max width
+    of each tile at 50vh so that it doesn't look weird for the few people who may
+    be using an ultrawide monitor.
 */
-@media only screen and (
-    (3/4 <= aspect-ratio <= 4/3) or
-    (24.5em <= width < 37em)
-) {
-    .HomescreenTiles .Tile {
-        max-width: calc((100% - 2.5em) / 2);
+/* @media only screen and (0.6 <= aspect-ratio < 1.2) {
+    .HomescreenTiles {
+        --num-columns: 2;
+    }
+} */
+@media only screen and (aspect-ratio >= 1.2) {
+    .HomescreenTiles {
+        /* --num-columns: 3; */
+        max-width: calc(3 * var(--tile-max-width) + 2 * var(--tile-gap));
     }
 }
-@media only screen and (
-    (aspect-ratio > 4/3) and
-    (width >= 37em)
-) {
-    .HomescreenTiles .Tile {
-        max-width: calc((100% - 5em) / 3);
-    }
-}
-
-/* If the aspect ratio is above 4:3, set max-width to 50vh */
-
-/* If the screen width is more than 67em, set max-width to 20em */
-/* @media only screen and (min-width: 67em) {
-    .HomescreenTiles .Tile {
-        max-width: 50vh;
-    }
-} */
-/* If the screen width is between 37em and 67em, set max-width to (100% - 5em) / 3 */
-/* @media only screen and (min-width: 37em) and (max-width: 67em) {
-    .HomescreenTiles .Tile {
-        max-width: calc((100% - 5em) / 3);
-    }
-} */
-/*
-    If the screen width is between 24.5em and 37em or if the screen aspect ratio is
-    between 4:3 and 3:4, set max-width to (100% - 2.5em) / 2.
-*/
-/* @media only screen and ((24.5em <= width < 37em) or (3/4 <= aspect-ratio <= 4/3)) {
-    .HomescreenTiles .Tile {
-        max-width: calc((100% - 2.5em) / 2);
-    }
-} */
 
 /*
     The tiles' styles should be applied to a class rather
@@ -183,7 +227,6 @@ a:active {
     should be controlled by the tile's parent element rather than by this CSS class.
 */
 .Tile {
-    flex: 1;
     display: flex;
     align-items: flex-end;
     box-sizing: border-box;
