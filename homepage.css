@@ -95,7 +95,7 @@ a:active {
     the tiles to avoid the "giant button problem" that a UI like this may have.
 
     Because I want the tiles' position and size to ideally be controlled by their
-    parent element (".HomescreenTiles", in this case), the rules for how the
+    parent element ("#HomescreenTiles", in this case), the rules for how the
     homescreen tiles should behave are included here:
     - In all situations, the tiles should all be the same size and should be
     square.
@@ -116,7 +116,7 @@ a:active {
     the width of the screen if they don't all fit on one line, but the above rules
     about their size should guarantee this.
 */
-.HomescreenTiles {
+#HomescreenTiles {
     /* --num-columns: 1; */
     /*
         Unfortunately, in order for the UI to look good without issues, I needed to
@@ -183,7 +183,7 @@ a:active {
     width: 100%;
     margin-inline: auto;
 }
-.HomescreenTiles .Tile {
+#HomescreenTiles .Tile {
     aspect-ratio: 1;
     min-width: var(--tile-min-width);
     width: 100%;
@@ -209,12 +209,12 @@ a:active {
     be using an ultrawide monitor.
 */
 /* @media only screen and (0.6 <= aspect-ratio < 1.2) {
-    .HomescreenTiles {
+    #HomescreenTiles {
         --num-columns: 2;
     }
 } */
 @media only screen and (aspect-ratio >= 1.2) {
-    .HomescreenTiles {
+    #HomescreenTiles {
         /* --num-columns: 3; */
         max-width: calc(3 * var(--tile-max-width) + 2 * var(--tile-gap));
     }
