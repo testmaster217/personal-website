@@ -12,36 +12,39 @@
 
 /* Global variables */
 /*
-    NOTE: If changing any of these, make sure to also change any media queries that
-    depend on them. (As of this writing, you can't use CSS variables or functions
-    in media queries for some reason.)
+    NOTE: If changing any of these values, make sure to also change any media
+    queries that depend on those values. (As of this writing, you can't use CSS
+    variables or functions in media queries for some reason.)
 */
 :root {
     --screen-margin: 1em;
     --tile-min-width: 10em;
     --tile-max-width: 47vh;
+    --tile-gap: 1em;
     /*
         Using px instead of a relataive unit here because the gap between tiles
         needs to be the same size relative to the user's finger no matter what
         size screen they're using.
     */
-    --tile-gap: 72px;
+    --safe-space: 72px;
 }
 
 /* Main styles */
 
 /*
     Body should be at least as tall as the screen. This plus making it a flexbox
-    are necessary to make the footer always appear at the bottom of the screen.
+    (see `:has(> footer)` below) are necessary to make the footer always appear at
+    the bottom of the screen.
 
-    "min-width: 12em" is to make sure that the screen is properly scrollable in the
+    `min-width` is set to make sure that the screen is properly scrollable in the
     unlikely event that it is too narrow to display even one tile at its smallest
-    possible size.
+    possible size. (The screen must be at least wide enough for two inline paddings
+    (one on each side) plus the minimum-sized tile.)
 */
 body {
     box-sizing: border-box;
     padding: var(--screen-margin);
-    min-width: calc(var(--screen-margin) + 2 * var(--tile-min-width));
+    min-width: calc(2 * var(--screen-margin) + var(--tile-min-width));
 
     background-color: #efefff;
 }
@@ -58,8 +61,7 @@ header {
 }
 
 /*
-    Make the h1 and the p inside the header not be spaced apart weirdly. May need
-    to adjust this spacing when I add the correct font.
+    Make the h1 and the p inside the header not be spaced apart weirdly.
 */
 header h1, header p {
     margin: 0;
@@ -91,8 +93,8 @@ a:active {
 }
 
 /*
-    Main should be centered horizontally and should have enough of a gap between
-    the tiles to avoid the "giant button problem" that a UI like this may have.
+    Main should be centered horizontally and should have enough of an inline margin
+    to avoid the "giant button problem" that a UI like this may have.
 
     Because I want the tiles' position and size to ideally be controlled by their
     parent element ("#HomescreenTiles", in this case), the rules for how the
@@ -117,64 +119,7 @@ a:active {
     about their size should guarantee this.
 */
 #HomescreenTiles {
-    /* --num-columns: 1; */
-    /*
-        Unfortunately, in order for the UI to look good without issues, I needed to
-        make it dependent on both the screen width and the aspect ratio, and
-        unfortunately, the screen width is in terms of multiple different units
-        because the gaps between the grid columns /have/ to be specified in
-        absolute units anf everything else /has/ to be specified in relative units,
-        meaning that media queries weren't an option since I would need the
-        `calc()` function to add the different units together, and you can't (as
-        of this writing) use functions in vanilla CSS. This big, ugly formula is
-        what I came up with to determine the number of columns without using media
-        queries:
-        ```CSS
-        --num-columns: clamp(
-            1, clamp(
-                1, calc((100vw / 100vh) / 0.6 + 1),
-                calc(
-                    (100wv - 2 * --screen-margin + --tile-gap) /
-                    (--tile-min-width + --tile-gap)
-                )
-            ), 3
-        );
-        ```
-        Some things to unpack:
-        - The outer `clamp()` function is between 1 and 3 because that's how many
-        columns can exist.
-        - The inner `clamp()` function is between 1 and a formula for calculating
-        how many columns I would need just based on the screen width and not on
-        the aspect ratio. I started from "screen width (aka, `100vw`) equals the
-        two inline paddings from the body element (`2 * --screen-margin`) plus one
-        tile for each column (`--num-columns * --tile-min-width`) plus one less
-        than that many gaps between the columns
-        (`(--num-columns - 1) * --tile-gap`). I then solved for `--num-columns`,
-        and got the formula that I used as the upper limit of the inner `clamp()`.
-        - Through trial and error, I found that the best aspect ratio for the two-
-        column layout was between 0.6 and 1.2. Less than that range got the one-
-        column layout, and more got the three-column layout. In other words, the
-        number of columns I needed was just the aspect ratio integer divided by
-        0.6, and then add 1.
-        - Through the same trial and error, I found that at very specific screen
-        resolutions, the grid would use two columns when only one could fit, or
-        would use three columns when only two could fit, thus cutting the tiles
-        off at the right edge of the screen. This is why the screen width needed
-        to be considered, but I learned through earlier testing that using /only/
-        the screen width led to the grid wasting a lot of screen space, especially
-        in portrait mode, and this didn't look good. Thus, I use them both. I use
-        the result from the aspect-ratio formula, but keep it from adding an extra
-        column by clamping it to the result from the screen width formula.
-    */
-    --num-columns: clamp(
-            1, clamp(
-                1, calc((100vw / 100vh) / 0.6 + 1),
-                calc(
-                    (100wv - 2 * --screen-margin + --tile-gap) /
-                    (--tile-min-width + --tile-gap)
-                )
-            ), 3
-        );
+    --num-columns: 1;
     display: grid;
     grid-template-columns: repeat(var(--num-columns), 1fr);
     grid-auto-rows: min-content;
@@ -208,23 +153,23 @@ a:active {
     of each tile at 50vh so that it doesn't look weird for the few people who may
     be using an ultrawide monitor.
 */
-/* @media only screen and (0.6 <= aspect-ratio < 1.2) {
+@media only screen and (0.6 <= aspect-ratio < 1.2) {
     #HomescreenTiles {
         --num-columns: 2;
     }
-} */
+}
 @media only screen and (aspect-ratio >= 1.2) {
     #HomescreenTiles {
-        /* --num-columns: 3; */
+        --num-columns: 3;
         max-width: calc(3 * var(--tile-max-width) + 2 * var(--tile-gap));
     }
 }
 
 /*
-    The tiles' styles should be applied to a class rather
-    than to the <a> elements that I'm currently using as I plan on replacing those
-    with custom components. As much as possible, the tile's position and size
-    should be controlled by the tile's parent element rather than by this CSS class.
+    The tiles' styles should be applied to a class rather than to the <a> elements
+    that I'm currently using as I plan on replacing those with custom components.
+    As much as possible, the tile's position and size should be controlled by the
+    tile's parent element rather than by this CSS class.
 */
 .Tile {
     display: flex;
@@ -258,12 +203,12 @@ a:active {
 }
 
 /*
-    Footer should also be a flexbox. If the three items in the footer each need
-    their own line, they should all be left-justified. If they can all share one
-    line, they should be left-right justified. If two can share one line but the
-    third needs a separate one, the two that share a line should be left-right
-    justified while the third one is left-justified. This is achieved with "flex-
-    wrap: wrap" and "justify-content: space-between".
+    Footer should be a flexbox. If the three items in the footer each need their
+    own line, they should all be left-justified. If they can all share one line,
+    they should be left-right justified. If two can share one line but the third
+    needs a separate one, the two that share a line should be left-right justified
+    while the third one is left-justified. This is achieved with `flex-wrap: wrap`
+    and `justify-content: space-between`.
 */
 footer {
     display: flex;
@@ -288,7 +233,8 @@ footer {
 }
 
 /*
-    Non-layout styling for the footer.
+    Non-layout styling for the footer. (Currently only used to make the version
+    number look like the rest of the elements that I have there.)
 */
 footer code {
     font-size: smaller;
