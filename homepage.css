@@ -38,13 +38,12 @@
 
     `min-width` is set to make sure that the screen is properly scrollable in the
     unlikely event that it is too narrow to display even one tile at its smallest
-    possible size. (The screen must be at least wide enough for two inline paddings
-    (one on each side) plus the minimum-sized tile.)
+    possible size.
 */
 body {
     box-sizing: border-box;
     padding: var(--screen-margin);
-    min-width: calc(2 * var(--screen-margin) + var(--tile-min-width));
+    min-width: min-content;
 
     background-color: #efefff;
 }
