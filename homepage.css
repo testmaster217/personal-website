@@ -92,30 +92,65 @@ a:active {
 }
 
 /*
-    Main should be centered horizontally and should have enough of an inline margin
-    to avoid the "giant button problem" that a UI like this may have.
+    The container for the tiles (#HomescreenTiles) should be centered horizontally
+    and should have enough of an inline margin to avoid the "giant button problem"
+    that a UI like this may have.
 
     Because I want the tiles' position and size to ideally be controlled by their
     parent element ("#HomescreenTiles", in this case), the rules for how the
     homescreen tiles should behave are included here:
-    - In all situations, the tiles should all be the same size and should be
-    square.
-    - If the screen is wide enough to fit all three tiles to fit on one line, the
-    container should not get wider with the screen.
-    - If the screen is not wide enough to fit all three tiles on one line, they
-    should wrap.
-    - The tiles have a minimum width of 10em and a maximum width of the screen
-    width minus the margin and gaps (2 gaps for three tiles oer line, 1 gap for
-    two tiles per line, or 0 gaps for one tile per line) divided by the number
-    of tiles per line, or 20em, whichever is less. The tiles should be as big
-    as possible within these constraints and the UI should prefer shrinking
-    them rather than wrapping them.
+    - The UI can have the following three states:
+    1.  ---   2.  ---   ---   3.  ---   ---   ---
+       |   |     |   | |   |     |   | |   | |   |
+        ---       ---   ---       ---   ---   ---
+        ---       ---
+       |   |     |   |
+        ---       ---
+        ---
+       |   |
+        ---
+    - Layout 3 should not be used in portrait mode (aspect ratio <= 1), and
+    layout 1 should not be used in landscape mode (aspect ratio > 1).
+    - In all situations, the tiles should all be the same size as each other and
+    should be square.
+    - If layout 3 is used, the container should not get wider with the screen.
+    Otherwise, the tiles should wrap.
+    - The tiles have a minimum width of `--tile-min-width` and when layout 3 is
+    used, their container has a maximum width that caps their width at
+    `--tile-max-width`. The tiles should be as big as possible within these
+    constraints, but the UI should prefer shrinking them rather than wrapping them.
     - If the screen isn't wide enough to fit even one tile at its smallest
     possible size, then and only then should it be horizontally scrollable.
     - Although the container should be horizontally centered, the tiles
-    themselves should be left-alined. They should also be wide enough to take up
-    the width of the screen if they don't all fit on one line, but the above rules
-    about their size should guarantee this.
+    themselves should be left-alined (so that layout 2 will work properly). The
+    container should also be as wide as possible unless layout 3's max width
+    applies.
+    - When to use which layout:
+        - If the aspect ratio is less than 0.6 (the viewport is "portrait") OR the
+        viewport is not wide enough for two tiles to comfortably fit on one line
+        without scrolling (the viewport is "narrow"), use layout 1. (This should be
+        what the default style does.)
+        - If the aspect ratio is between 0.6 and 1.2 (the viewport is "square-ish")
+        OR the viewport is wide enough to fit two tiles on one line without
+        scrolling, but not three (the viewport is "medium"), use layout 2.
+        - If the aspect ratio is wider than 1.2 (the viewport is "landscape") AND
+        the viewport is wide enough to fit three tiles on one line without
+        scrolling (the viewport is "wide"), use layout 3, but set the max width
+        of each tile at `--tile-max-width` so that it doesn't look weird for the
+        few people who may be using an ultrawide monitor.
+        - To sum it up with a table:
+        +---------------------------------------------------------------+
+        |                             Width                             |
+        +--------------------+--------------+--------------+------------+
+        |                    |    Narrow    |    Medium    |    Wide    |                    |
+        +--------+-----------+--------------+--------------+------------+
+        |        | Portrait  |      1       |      1       |     1      |
+        |        +-----------+--------------+--------------+------------+
+        | Aspect |   Square  |      1       |      2       |     2      |
+        | Ratio  |   -ish    |              |              |            |
+        |        +-----------+--------------+--------------+------------+
+        |        | Landscape |      1       |      2       |     3      |
+        +--------+-----------+--------------+--------------+------------+
 */
 #HomescreenTiles {
     --num-columns: 1;
@@ -133,25 +168,6 @@ a:active {
     width: 100%;
 }
 
-/*
-    Three states for the UI to look like:
-    1.  ---   2.  ---   ---   3.  ---   ---   ---
-       |   |     |   | |   |     |   | |   | |   |
-        ---       ---   ---       ---   ---   ---
-        ---       ---
-       |   |     |   |
-        ---       ---
-        ---
-       |   |
-        ---
-
-    - If the aspect ratio is taller than 13/20, use layout 1. (This should be what
-    the default style does.)
-    - If the aspect ratio is between 13/20 and 20/13, use layout 2.
-    - If the aspect ratio is wider than 20/13, use layout 3, but set the max width
-    of each tile at 50vh so that it doesn't look weird for the few people who may
-    be using an ultrawide monitor.
-*/
 @media only screen and (0.6 <= aspect-ratio < 1.2) {
     #HomescreenTiles {
         --num-columns: 2;
