@@ -49,7 +49,11 @@
 body {
     box-sizing: border-box;
     padding: var(--screen-margin);
-    min-width: calc(var(--tile-min-width) + 2 * var(--safe-space) + 2 * var(--screen-margin));
+    min-width: calc(
+        var(--tile-min-width)
+        + 2 * var(--safe-space)
+        + 2 * var(--screen-margin)
+    );
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -138,7 +142,8 @@ a:active {
         - If the aspect ratio is less than 0.6 (the viewport is "portrait") OR the
         viewport is not wide enough for two tiles to comfortably fit on one line
         without scrolling (the viewport is "narrow"), use layout 1. (This should be
-        what the default style does.)
+        what the default style does due to the best practice of "mobile-first"
+        design.)
         - If the aspect ratio is between 0.6 and 1.2 (the viewport is "square-ish")
         OR the viewport is wide enough to fit two tiles on one line without
         scrolling, but not three (the viewport is "medium"), use layout 2.
@@ -151,7 +156,7 @@ a:active {
         +---------------------------------------------------------------+
         |                             Width                             |
         +--------------------+--------------+--------------+------------+
-        |                    |    Narrow    |    Medium    |    Wide    |                    |
+        |                    |    Narrow    |    Medium    |    Wide    |
         +--------+-----------+--------------+--------------+------------+
         |        | Portrait  |      1       |      1       |     1      |
         |        +-----------+--------------+--------------+------------+
@@ -202,7 +207,11 @@ a:active {
     padding: 0.5em;
 
     background-color: green;
-    background-image: radial-gradient(ellipse 100% 50% at top, rgba(226, 226, 226, 0.75), transparent);
+    background-image: radial-gradient(
+        ellipse 100% 50% at top,
+        rgba(226, 226, 226, 0.75),
+        transparent
+    );
     color: white;
     text-decoration: none;
 
@@ -232,7 +241,9 @@ a:active {
     they should be left-right justified. If two can share one line but the third
     needs a separate one, the two that share a line should be left-right justified
     while the third one is left-justified. This is achieved with `flex-wrap: wrap`
-    and `justify-content: space-between`.
+    and `justify-content: space-between`. 'column-gap' is set because without it,
+    the three footer items bunch up on certain screen sizes (namely, at least one
+    of the iPads in portrait mode in Microsoft Edge's device emulator).
 */
 footer {
     display: flex;
