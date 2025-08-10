@@ -20,7 +20,7 @@
     --screen-margin: 1em;
     --tile-min-width: 10em;
     --tile-max-width: 47vh;
-    --tile-gap: 1em;
+    --tile-gap: 2em;
     /*
         Using px instead of a relataive unit here because the gap between tiles
         needs to be the same size relative to the user's finger no matter what
@@ -49,7 +49,7 @@
 body {
     box-sizing: border-box;
     padding: var(--screen-margin);
-    min-width: min-content;
+    min-width: calc(var(--tile-min-width) + 2 * var(--safe-space) + 2 * var(--screen-margin));
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -167,8 +167,8 @@ a:active {
     grid-template-columns: repeat(var(--num-columns), 1fr);
     grid-auto-rows: min-content;
     gap: var(--tile-gap);
-    min-width: var(--tile-min-width);
-    width: 100%;
+    min-width: min-content;
+    width: calc(100% - 2 * var(--safe-space));
     margin-inline: var(--safe-space);
 }
 #HomescreenTiles .Tile {
@@ -238,6 +238,7 @@ footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    column-gap: 1em;
 }
 /*
     To make the footer always appear at the bottom of the content or the screen
