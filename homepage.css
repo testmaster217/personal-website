@@ -39,11 +39,20 @@
     `min-width` is set to make sure that the screen is properly scrollable in the
     unlikely event that it is too narrow to display even one tile at its smallest
     possible size.
+
+    Making the body element a flexbox also gives me a way to center the
+    #HomescreenTiles element, since the "width: x; margin: auto" trick won't work
+    when I need a minimum margin (see #HomescreenTiles below). "display: flex" and
+    "flex-direction: column" are written both here and in ":has(> footer)" below in
+    case I want to someday move those into separate CSS files.
 */
 body {
     box-sizing: border-box;
     padding: var(--screen-margin);
     min-width: min-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     background-color: #efefff;
 }
@@ -160,7 +169,7 @@ a:active {
     gap: var(--tile-gap);
     min-width: var(--tile-min-width);
     width: 100%;
-    margin-inline: auto;
+    margin-inline: var(--safe-space);
 }
 #HomescreenTiles .Tile {
     aspect-ratio: 1;
