@@ -18,15 +18,9 @@
 */
 :root {
     --screen-margin: 1em;
-    --tile-min-width: 10em;
-    --tile-max-width: 47vh;
     --tile-gap: 2em;
-    /*
-        Using px instead of a relataive unit here because the gap between tiles
-        needs to be the same size relative to the user's finger no matter what
-        size screen they're using.
-    */
-    --safe-space: 72px;
+    --tile-min-width: 7em;
+    --tile-max-width: calc(50vmin - var(--screen-margin) - var(--tile-gap) / 2);
 }
 
 /* Main styles */
@@ -51,7 +45,6 @@ body {
     padding: var(--screen-margin);
     min-width: calc(
         var(--tile-min-width)
-        + 2 * var(--safe-space)
         + 2 * var(--screen-margin)
     );
     display: flex;
@@ -122,8 +115,7 @@ a:active {
         ---
        |   |
         ---
-    - Layout 3 should not be used in portrait mode (aspect ratio <= 1), and
-    layout 1 should not be used in landscape mode (aspect ratio > 1).
+    - Layout 3 should not be used in portrait mode (aspect ratio <= 1).
     - In all situations, the tiles should all be the same size as each other and
     should be square.
     - If layout 3 is used, the container should not get wider with the screen.
@@ -167,31 +159,27 @@ a:active {
         +--------+-----------+--------------+--------------+------------+
 */
 #HomescreenTiles {
-    --num-columns: 1;
     display: grid;
-    grid-template-columns: repeat(var(--num-columns), 1fr);
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(
+            var(--tile-min-width),
+            var(--tile-max-width)
+        )
+    );
     grid-auto-rows: min-content;
     gap: var(--tile-gap);
-    min-width: min-content;
-    width: calc(100% - 2 * var(--safe-space));
-    margin-inline: var(--safe-space);
+    justify-content: center;
+    min-width: var(--tile-min-width);
+    width: 100%;
+    max-width: calc(3 * var(--tile-max-width) + 2 * var(--tile-gap));
+    margin-inline: auto;
 }
 #HomescreenTiles .Tile {
     aspect-ratio: 1;
     min-width: var(--tile-min-width);
     width: 100%;
-}
-
-@media only screen and (0.6 <= aspect-ratio < 1.2) {
-    #HomescreenTiles {
-        --num-columns: 2;
-    }
-}
-@media only screen and (aspect-ratio >= 1.2) {
-    #HomescreenTiles {
-        --num-columns: 3;
-        max-width: calc(3 * var(--tile-max-width) + 2 * var(--tile-gap));
-    }
+    max-width: var(--tile-max-width);
 }
 
 /*
