@@ -189,7 +189,6 @@ a:active {
     aspect-ratio: 1;
     min-width: var(--tile-min-width);
     width: 100%;
-    max-width: var(--tile-max-width);
 }
 /*
     This seems to make the grid behave proeprly in landscape mode, but I have spent
