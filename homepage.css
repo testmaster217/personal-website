@@ -20,16 +20,7 @@
     --screen-margin: 1em;
     --tile-gap: 2em;
     --tile-min-width: 7em;
-    /*
-        The `round()` function is used because at my high text scaling, the
-        computed value for the `50vmin` wasn't being calculated correctly, and
-        this was (in specific cases, at least), causing layout bugs. I also have a
-        version of this variable without the `round()` function because as of this
-        writing, some less-than-perfectly-up-to-date browsers may not support that
-        function yet.
-    */
     --tile-max-width: calc(50vmin - var(--screen-margin) - var(--tile-gap) / 2);
-    --tile-max-width: calc(round(50vmin, 1px) - var(--screen-margin) - var(--tile-gap) / 2);
 }
 
 /* Main styles */
