@@ -170,6 +170,7 @@ a:active {
     grid-auto-rows: min-content;
     gap: var(--tile-gap);
     justify-content: center;
+    justify-items: center;
     min-width: var(--tile-min-width);
     width: 100%;
     max-width: calc(3 * var(--tile-max-width) + 2 * var(--tile-gap));
@@ -180,6 +181,22 @@ a:active {
     min-width: var(--tile-min-width);
     width: 100%;
     max-width: var(--tile-max-width);
+}
+/*
+    This seems to make the grid behave proeprly in landscape mode, but I have spent
+    way too long trying to get this grid to behave the way I want in every case,
+    and my brain is so fried I don't want to try to figure out why this works.
+*/
+@media screen and (orientation: landscape) {
+    #HomescreenTiles {
+        grid-template-columns: repeat(
+            auto-fit,
+            minmax(
+                var(--tile-min-width),
+                1fr
+            )
+        );
+    }
 }
 
 /*
