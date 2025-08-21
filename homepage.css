@@ -186,7 +186,7 @@ a:active {
     way too long trying to get this grid to behave the way I want in every case,
     and my brain is so fried I don't want to try to figure out why this works.
 */
-@media screen and (orientation: landscape) {
+@media only screen and (orientation: landscape) {
     #HomescreenTiles {
         grid-template-columns: repeat(
             auto-fit,
