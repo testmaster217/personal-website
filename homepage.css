@@ -142,19 +142,22 @@ a:active {
     box-sizing: border-box;
     padding: 0.5em;
 
-    background-color: green;
+    color: white;
+    text-decoration: none;
+    background-color: #006800;
     background-image: radial-gradient(
         ellipse 100% 50% at top,
         rgba(226, 226, 226, 0.75),
         transparent
     );
-    color: white;
-    text-decoration: none;
 
     scale: none;
     transition: 0.1s linear;
 }
 .Tile:visited {
+    color: white;
+}
+.Tile:focus {
     color: white;
 }
 @media only screen and (hover) {
