@@ -1,0 +1,41 @@
+/*
+    As much as possible, the tile's position and size should be controlled by the
+    tile's parent element rather than by this CSS class.
+*/
+.TileLink {
+    display: flex;
+    align-items: flex-end;
+    box-sizing: border-box;
+    padding: 0.5em;
+
+    color: white;
+    text-decoration: none;
+    background-color: #006800;
+    background-image: radial-gradient(
+        ellipse 100% 50% at top,
+        rgba(226, 226, 226, 0.75),
+        transparent
+    );
+
+    scale: none;
+    transition: 0.1s linear;
+}
+.TileLink:visited {
+    color: white;
+}
+.TileLink:focus {
+    color: white;
+}
+@media only screen and (hover) {
+    .TileLink:hover,
+    .TileLink:focus {
+        color: white;
+
+        scale: 105%;
+    }
+}
+.TileLink:active {
+    color: white;
+
+    scale: 97.5%
+}

@@ -119,7 +119,7 @@ a:active {
     max-width: 67vw;
     margin-inline: auto;
 }
-#HomescreenTiles .Tile {
+#HomescreenTiles .TileLink {
     aspect-ratio: 1;
     min-width: var(--tile-min-width);
     width: 100%;
@@ -136,7 +136,7 @@ a:active {
     As much as possible, the tile's position and size should be controlled by the
     tile's parent element rather than by this CSS class.
 */
-.Tile {
+/* .Tile {
     display: flex;
     align-items: flex-end;
     box-sizing: border-box;
@@ -172,7 +172,7 @@ a:active {
     color: white;
 
     scale: 97.5%
-}
+} */
 
 /*
     Footer should be a flexbox. If the three items in the footer each need their
