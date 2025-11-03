@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"net/http"
 	"net/http/httptest"
 	"os"
 	"strings"
@@ -11,6 +12,9 @@ import (
 )
 
 func TestServer(t *testing.T) {
+	// TODO: Make the server work in such a way that it can have a different
+	// document root folder in prod than when running these tests.
+
 	tests := []struct {
 		// Parameters
 		method, htmxHeader, reqPath string
@@ -21,7 +25,7 @@ func TestServer(t *testing.T) {
 		// Test cases go here.
 		// - Happy path HTMX.
 		// - Happy path no HTMX.
-		{"GET", "", "bio.html", 200, "bio.html"},
+		{http.MethodGet, "", "bio.html", http.StatusOK, "bio.html"},
 		// - Happy path false HTMX.
 		// - Happy path non-HTML.
 		// - Happy path root HTMX.
@@ -41,24 +45,23 @@ func TestServer(t *testing.T) {
 		// - Path is invalid.
 	}
 
-	// Global Setup.
-	w := httptest.NewRecorder()
-
 	// Run the tests.
+	var sb strings.Builder
 	for _, tt := range tests {
 		testname := fmt.Sprintf("%v %v HTMX: %q", tt.method, tt.reqPath, tt.htmxHeader)
 		t.Run(testname, func(t *testing.T) {
 			// Try to read the file with the desired response contents.
 			// If this fails, the test is not runnable.
-			var sb strings.Builder
+			sb.Reset()
 			sb.WriteString("test_files/")
 			sb.WriteString(tt.wantPageContentsPath)
 			wantedResBody, err := os.ReadFile(sb.String())
 			if err != nil {
 				t.Fatalf("failed to run test, %v", err)
 			}
-			// Test-specific setup.
+			// Setup.
 			req := httptest.NewRequest(tt.method, tt.reqPath, nil)
+			w := httptest.NewRecorder()
 			// If we're testing an HTMX request, add the necessary header.
 			if tt.htmxHeader != "" {
 				req.Header.Add("HX-Request", tt.htmxHeader)
