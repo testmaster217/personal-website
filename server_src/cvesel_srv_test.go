@@ -1,25 +1,27 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"net/http/httptest"
+	"os"
+	"strings"
 	"testing"
 )
 
 func TestServer(t *testing.T) {
 	tests := []struct {
-		params struct {
-			method, htmxHeader, reqPath string
-		}
-		want struct {
-			statusCode int
-			resBody    string
-		}
+		// Parameters
+		method, htmxHeader, reqPath string
+		// Wanted results
+		wantStatusCode       int
+		wantPageContentsPath string
 	}{
 		// Test cases go here.
 		// - Happy path HTMX.
 		// - Happy path no HTMX.
+		{"GET", "", "bio.html", 200, "bio.html"},
 		// - Happy path false HTMX.
 		// - Happy path non-HTML.
 		// - Happy path root HTMX.
@@ -44,13 +46,22 @@ func TestServer(t *testing.T) {
 
 	// Run the tests.
 	for _, tt := range tests {
-		testname := fmt.Sprintf("%v %v HTMX: %q", tt.params.method, tt.params.reqPath, tt.params.htmxHeader)
+		testname := fmt.Sprintf("%v %v HTMX: %q", tt.method, tt.reqPath, tt.htmxHeader)
 		t.Run(testname, func(t *testing.T) {
+			// Try to read the file with the desired response contents.
+			// If this fails, the test is not runnable.
+			var sb strings.Builder
+			sb.WriteString("test_files/")
+			sb.WriteString(tt.wantPageContentsPath)
+			wantedResBody, err := os.ReadFile(sb.String())
+			if err != nil {
+				t.Fatalf("failed to run test, %v", err)
+			}
 			// Test-specific setup.
-			req := httptest.NewRequest(tt.params.method, tt.params.reqPath, nil)
+			req := httptest.NewRequest(tt.method, tt.reqPath, nil)
 			// If we're testing an HTMX request, add the necessary header.
-			if tt.params.htmxHeader != "" {
-				req.Header.Add("HX-Request", tt.params.htmxHeader)
+			if tt.htmxHeader != "" {
+				req.Header.Add("HX-Request", tt.htmxHeader)
 			}
 
 			// Make the request and get the response.
@@ -59,17 +70,16 @@ func TestServer(t *testing.T) {
 			// Compare the results with the desired ones.
 			res := w.Result()
 			// Check status code.
-			if res.StatusCode != tt.want.statusCode {
-				t.Errorf("status code was %d, want %d", res.StatusCode, tt.want.statusCode)
+			if res.StatusCode != tt.wantStatusCode {
+				t.Errorf("status code was %d, want %d", res.StatusCode, tt.wantStatusCode)
 			}
 			// Check body.
 			responseBody, err := io.ReadAll(res.Body)
 			if err != nil {
 				t.Errorf("%v", err)
 			}
-			stringifiedResBody := string(responseBody)
-			if stringifiedResBody != tt.want.resBody {
-				t.Errorf("response body was %q, want %q", stringifiedResBody, tt.want.resBody)
+			if bytes.Equal(responseBody, wantedResBody) {
+				t.Errorf("response body was %q, want %q", responseBody, wantedResBody)
 			}
 		})
 	}
