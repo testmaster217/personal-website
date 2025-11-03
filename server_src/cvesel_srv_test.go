@@ -17,7 +17,7 @@ func TestServer(t *testing.T) {
 			resBody    string
 		}
 	}{
-		// TODO: Add cases here.
+		// Test cases go here.
 		// - Happy path HTMX.
 		// - Happy path no HTMX.
 		// - Happy path false HTMX.
