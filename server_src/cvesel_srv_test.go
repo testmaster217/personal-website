@@ -18,6 +18,25 @@ func TestServer(t *testing.T) {
 		}
 	}{
 		// TODO: Add cases here.
+		// - Happy path HTMX.
+		// - Happy path no HTMX.
+		// - Happy path false HTMX.
+		// - Happy path non-HTML.
+		// - Happy path root HTMX.
+		// - Happy path root no HTMX.
+		// - Happy path root false HTMX.
+		// - HEAD request.
+		// - Illegal method.
+		// - Page does not exist.
+		// - Page is not a file.
+		// - Illegal page.
+		// - Path ends in "/".
+		// - Path ends in ".html".
+		// - Path ends in ".htm".
+		// - Path is "/index.html".
+		// - Path is "/index.htm".
+		// - Path is "/index".
+		// - Path is invalid.
 	}
 
 	// Global Setup.
