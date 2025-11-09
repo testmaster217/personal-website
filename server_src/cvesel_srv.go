@@ -21,6 +21,6 @@ func (srv *CveselServer) getPage(path string) string {
 }
 
 func main() {
-	server := &CveselServer{}
+	server := &CveselServer{"../client"}
 	log.Fatal(http.ListenAndServe(":5000", server))
 }
