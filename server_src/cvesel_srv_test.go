@@ -7,7 +7,7 @@ import (
 )
 
 func TestServePages(t *testing.T) {
-	server := &CveselServer{}
+	server := &CveselServer{"./testpages"}
 
 	// When I request a page, it should return that page.
 	t.Run("returns the requested page", func(t *testing.T) {
@@ -16,7 +16,7 @@ func TestServePages(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
-		assertResponseBody(t, response.Body.String(), "test page plz ignore")
+		assertResponseBody(t, response.Body.String(), "<html><body>test page plz ignore</body></html>")
 	})
 
 	// When I request a different page, it should return that page.
@@ -26,7 +26,7 @@ func TestServePages(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
-		assertResponseBody(t, response.Body.String(), "2nd test page plz ignore")
+		assertResponseBody(t, response.Body.String(), "<html><body>2nd test page plz ignore</body></html>")
 	})
 }
 

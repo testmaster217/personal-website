@@ -16,7 +16,7 @@ func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (srv *CveselServer) getPage(path string) string {
-	res, _ := os.ReadFile(fmt.Sprintf("%s%s", srv.docRoot, path))
+	res, _ := os.ReadFile(fmt.Sprintf("%s%s.html", srv.docRoot, path))
 	return string(res)
 }
 
