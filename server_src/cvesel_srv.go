@@ -7,15 +7,19 @@ import (
 )
 
 func CveselServer(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/testpage" {
-		fmt.Fprintf(w, "test page plz ignore")
-		return
+	fmt.Fprint(w, GetPage(r.URL.Path))
+}
+
+func GetPage(path string) string {
+	if path == "/testpage" {
+		return "test page plz ignore"
 	}
 
-	if r.URL.Path == "/testpage2" {
-		fmt.Fprintf(w, "2nd test page plz ignore")
-		return
+	if path == "/testpage2" {
+		return "2nd test page plz ignore"
 	}
+
+	return ""
 }
 
 func main() {
