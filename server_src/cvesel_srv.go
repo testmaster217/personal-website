@@ -4,25 +4,23 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
-func CveselServer(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, GetPage(r.URL.Path))
+type CveselServer struct {
+	docRoot string
 }
 
-func GetPage(path string) string {
-	if path == "/testpage" {
-		return "test page plz ignore"
-	}
+func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, srv.getPage(r.URL.Path))
+}
 
-	if path == "/testpage2" {
-		return "2nd test page plz ignore"
-	}
-
-	return ""
+func (srv *CveselServer) getPage(path string) string {
+	res, _ := os.ReadFile(fmt.Sprintf("%s%s", srv.docRoot, path))
+	return string(res)
 }
 
 func main() {
-	handler := http.HandlerFunc(CveselServer)
-	log.Fatal(http.ListenAndServe(":5000", handler))
+	server := &CveselServer{}
+	log.Fatal(http.ListenAndServe(":5000", server))
 }
