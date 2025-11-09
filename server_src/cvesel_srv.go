@@ -5,7 +5,11 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"regexp"
 )
+
+var isFileRegexp = regexp.MustCompile(`\.\w+/?$`)
+// var isHtml = regexp.MustCompile(`\.html?/?$`)
 
 type CveselServer struct {
 	docRoot string
@@ -26,8 +30,13 @@ func (srv *CveselServer) getPage(path string) string {
 	// Whatever gets served after the above are evaluated should be served differently depending on whether the request came from HTMX or not, as indicated by the "HX-Request" header:
 	// - If the header is msising or set to "false", combine the data to be served with a base page and serve that.
 	// - Otherwise, serve the data as is.
-	res, _ := os.ReadFile(fmt.Sprintf("%s%s.html", srv.docRoot, path))
-	return string(res)
+	if isFileRegexp.MatchString(path) {
+		res, _ := os.ReadFile(fmt.Sprintf("%s%s", srv.docRoot, path))
+		return string(res)
+	} else {
+		res, _ := os.ReadFile(fmt.Sprintf("%s%s.html", srv.docRoot, path))
+		return string(res)
+	}
 }
 
 func main() {
