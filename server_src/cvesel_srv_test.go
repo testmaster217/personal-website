@@ -41,7 +41,7 @@ func TestServePages(t *testing.T) {
 	})
 
 	// When I request a binary file, it should return that data.
-	t.Run("returns a requested image", func(t *testing.T) {
+	t.Run("returns a requested binary file", func(t *testing.T) {
 		request := NewGetReq("/testdata.dat")
 		response := httptest.NewRecorder()
 
@@ -53,8 +53,6 @@ func TestServePages(t *testing.T) {
 		if !slices.Equal(got, want) {
 			t.Errorf("wrong page contents, got %s, want %s", got, want)
 		}
-
-		assertResponseBody(t, response.Body.String(), "test data plz ignore")
 	})
 }
 
