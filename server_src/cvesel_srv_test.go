@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"net/http/httptest"
+	"slices"
 	"testing"
 )
 
@@ -37,6 +38,23 @@ func TestServePages(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		assertResponseBody(t, response.Body.String(), "body {color: blue;}")
+	})
+
+	// When I request a binary file, it should return that data.
+	t.Run("returns a requested image", func(t *testing.T) {
+		request := NewGetReq("/testdata.dat")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		got := response.Body.Bytes()
+		want := []byte{0x74, 0x65, 0x73, 0x74, 0x20, 0x64, 0x61, 0x74, 0x61, 0x20, 0x70, 0x6c, 0x7a, 0x20, 0x69, 0x67, 0x6e, 0x6f, 0x72, 0x65}
+
+		if !slices.Equal(got, want) {
+			t.Errorf("wrong page contents, got %s, want %s", got, want)
+		}
+
+		assertResponseBody(t, response.Body.String(), "test data plz ignore")
 	})
 }
 
