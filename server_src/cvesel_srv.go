@@ -30,6 +30,7 @@ func (srv *CveselServer) getPage(path string) string {
 	// Whatever gets served after the above are evaluated should be served differently depending on whether the request came from HTMX or not, as indicated by the "HX-Request" header:
 	// - PARTIAL TODO; DOESN'T WORK WITH PARTIAL PAGES YET: If the header is msising or set to "false", combine the data to be served with a base page and serve that.
 	// - TODO: Otherwise, serve the data as is.
+	// TODO: Make sure that all files served have the correct MIME type. (Apparently, the CSS for the real pages wasn't being applied properly bc the MIME type was wrong, but the page itself and the images were fine. ¯\_(ツ)_/¯)
 	if isFileRegexp.MatchString(path) {
 		res, _ := os.ReadFile(fmt.Sprintf("%s%s", srv.docRoot, path))
 		return string(res)
