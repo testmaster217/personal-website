@@ -9,6 +9,7 @@ import (
 )
 
 var isFileRegexp = regexp.MustCompile(`\.\w+/?$`)
+
 // var isHtml = regexp.MustCompile(`\.html?/?$`)
 
 type CveselServer struct {
@@ -21,7 +22,7 @@ func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (srv *CveselServer) getPage(path string) string {
 	// Should do different things depending on what is requested:
-	// - If the path ends with a "." followed by anything other than "html" or "htm", 
+	// - If the path ends with a "." followed by anything other than "html" or "htm",
 	// - - THIS IS CUT: If the file is executable and is not a JS file, it should be executed, and the results should be served.
 	// - - Otherwise, the file should be served as is.
 	// - TODO: If the requested path is empty, "/", or "/index[.htm|.html]" (possibly with a "/" at the end), redirect to an empty path if necessary, and serve the contents of "index.html".
@@ -30,7 +31,9 @@ func (srv *CveselServer) getPage(path string) string {
 	// Whatever gets served after the above are evaluated should be served differently depending on whether the request came from HTMX or not, as indicated by the "HX-Request" header:
 	// - PARTIAL TODO; DOESN'T WORK WITH PARTIAL PAGES YET: If the header is msising or set to "false", combine the data to be served with a base page and serve that.
 	// - TODO: Otherwise, serve the data as is.
+	//
 	// TODO: Make sure that all files served have the correct MIME type. (Apparently, the CSS for the real pages wasn't being applied properly bc the MIME type was wrong, but the page itself and the images were fine. ¯\_(ツ)_/¯)
+	// TODO: Find out what else I need to make sure this server does, what other standards it needs to comply with, what headers the responses need to have, what the values of those headers should be, etc.
 	if isFileRegexp.MatchString(path) {
 		res, _ := os.ReadFile(fmt.Sprintf("%s%s", srv.docRoot, path))
 		return string(res)
