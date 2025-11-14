@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 	"net/http"
-	"strings"
 	"regexp"
+	"strings"
 )
 
 var isFileRegexp = regexp.MustCompile(`\.\w+/?$`)
