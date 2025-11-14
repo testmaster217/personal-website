@@ -29,6 +29,7 @@ func TestServePages(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
+		AssertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
 		assertResponseBody(t, response.Body.String(), "<html><body>2nd test page plz ignore</body></html>")
 	})
 
@@ -39,6 +40,7 @@ func TestServePages(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
+		AssertMimeType(t, response.Result().Header.Get("Content-Type"), "text/css")
 		assertResponseBody(t, response.Body.String(), "body {color: blue;}")
 	})
 
@@ -49,9 +51,16 @@ func TestServePages(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
+		AssertMimeType(t, response.Result().Header.Get("Content-Type"), "application/octet-stream")
+
 		got := response.Body.Bytes()
-		// "test data plz ignore"
-		want := []byte{0x74, 0x65, 0x73, 0x74, 0x20, 0x64, 0x61, 0x74, 0x61, 0x20, 0x70, 0x6c, 0x7a, 0x20, 0x69, 0x67, 0x6e, 0x6f, 0x72, 0x65}
+		// "test data plz ignore" plus a bunch of random bytes
+		want := []byte{
+			0x74, 0x65, 0x73, 0x74, 0x20, 0x64, 0x61, 0x74,
+			0x61, 0x20, 0x70, 0x6c, 0x7a, 0x20, 0x69, 0x67,
+			0x6e, 0x6f, 0x72, 0x65, 0xBA, 0x08, 0x72, 0x2d,
+			0xfc, 0x7a, 0x21, 0x4e, 0xd2, 0xff, 0x00, 0x8c,
+		}
 
 		if !slices.Equal(got, want) {
 			t.Errorf("wrong page contents, got %s, want %s", got, want)
