@@ -9,7 +9,8 @@ import (
 )
 
 func TestServePages(t *testing.T) {
-	server := &CveselServer{"./testpages"}
+	//server := &CveselServer{"./testpages"}
+	server := NewCveselServer("./testpages")
 
 	// When I request a page, it should return that page.
 	t.Run("returns the requested page", func(t *testing.T) {
