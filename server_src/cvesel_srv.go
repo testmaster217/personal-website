@@ -29,6 +29,7 @@ func (srv *CveselServer) getPage(path string) string {
 	// - TODO: If this does not apply, and the path ends with ".html", ".htm", or "/", redirect to the equivalent path without the trailing thing.
 	// - If the path does not end with a file extension or a "/", serve the file that has that name with ".html" added onto the end.
 	// Whatever gets served after the above are evaluated should be served differently depending on whether the request came from HTMX or not, as indicated by the "HX-Request" header:
+	// - If the file is NOT an HTML file, serve it as is.
 	// - PARTIAL TODO; DOESN'T WORK WITH PARTIAL PAGES YET: If the header is msising or set to "false", combine the data to be served with a base page and serve that.
 	// - TODO: Otherwise, serve the data as is.
 	//
