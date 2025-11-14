@@ -54,7 +54,7 @@ func TestServePages(t *testing.T) {
 		AssertMimeType(t, response.Result().Header.Get("Content-Type"), "application/octet-stream")
 
 		got := response.Body.Bytes()
-		// "test data plz ignore" plus a bunch of random bytes
+		// "test data plz ignore" followed by a bunch of random bytes
 		want := []byte{
 			0x74, 0x65, 0x73, 0x74, 0x20, 0x64, 0x61, 0x74,
 			0x61, 0x20, 0x70, 0x6c, 0x7a, 0x20, 0x69, 0x67,
