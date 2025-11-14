@@ -35,11 +35,10 @@ func NewCveselServer(docRoot string) *CveselServer {
 // TODO: Make sure that all files served have the correct MIME type. (Apparently, the CSS for the real pages wasn't being applied properly bc the MIME type was wrong, but the page itself and the images were fine. ¯\_(ツ)_/¯)
 // TODO: Find out what else I need to make sure this server does, what other standards it needs to comply with, what headers the responses need to have, what the values of those headers should be, etc.
 func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	// If the path does not end with a file extension, change it to one that ends with ".html".
+	// If the path does not end with a file extension, add ".html".
 	if !isFileRegexp.MatchString(r.URL.Path) {
 		newPath, _ := strings.CutSuffix(r.URL.Path, "/")
-		newPath = strings.Join([]string{newPath, ".html"}, "")
-		r.URL.Path = newPath
+		r.URL.Path = newPath + ".html"
 	}
 
 	srv.baseServer.ServeHTTP(w, r)
