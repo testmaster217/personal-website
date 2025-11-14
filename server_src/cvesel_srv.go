@@ -4,11 +4,13 @@ import (
 	//"fmt"
 	"log"
 	"net/http"
+	"strings"
+
 	//"os"
-	//"regexp"
+	"regexp"
 )
 
-//var isFileRegexp = regexp.MustCompile(`\.\w+/?$`)
+var isFileRegexp = regexp.MustCompile(`\.\w+/?$`)
 
 // var isHtml = regexp.MustCompile(`\.html?/?$`)
 
@@ -40,6 +42,13 @@ func NewCveselServer(docRoot string) *CveselServer {
 // TODO: Find out what else I need to make sure this server does, what other standards it needs to comply with, what headers the responses need to have, what the values of those headers should be, etc.
 func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	//fmt.Fprint(w, srv.getPage(r.URL.Path))
+
+	// If the path does not end with a file extension, change it to one that ends with ".html".
+	if !isFileRegexp.MatchString(r.URL.Path) {
+		newPath, _ := strings.CutSuffix(r.URL.Path, "/")
+		newPath = strings.Join([]string{newPath, ".html"}, "")
+		r.URL.Path = newPath
+	}
 	srv.baseServer.ServeHTTP(w, r)
 }
 
