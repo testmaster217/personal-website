@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"slices"
+	"strings"
 	"testing"
 )
 
@@ -17,6 +18,7 @@ func TestServePages(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
+		AssertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
 		assertResponseBody(t, response.Body.String(), "<html><body>test page plz ignore</body></html>")
 	})
 
@@ -60,6 +62,13 @@ func TestServePages(t *testing.T) {
 func NewGetReq(path string) *http.Request {
 	req, _ := http.NewRequest(http.MethodGet, path, nil)
 	return req
+}
+
+func AssertMimeType(t testing.TB, got, want string) {
+	t.Helper()
+	if !strings.Contains(got, want) {
+		t.Errorf("content is the wrong MIME type, got %q, want %q", got, want)
+	}
 }
 
 func assertResponseBody(t testing.TB, got, want string) {
