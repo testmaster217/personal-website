@@ -39,6 +39,11 @@ func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, r.URL.Path[:len(r.URL.Path) - len(".html")], http.StatusMovedPermanently)
 		return
 	}
+	// Ditto for trailing ".htm"
+	if strings.HasSuffix(r.URL.Path, ".htm") {
+		http.Redirect(w, r, r.URL.Path[:len(r.URL.Path) - len(".htm")], http.StatusMovedPermanently)
+		return
+	}
 	// If the path does not end with a file extension, add ".html".
 	if !isFileRegexp.MatchString(r.URL.Path) {
 		newPath, _ := strings.CutSuffix(r.URL.Path, "/")

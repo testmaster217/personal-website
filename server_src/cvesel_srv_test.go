@@ -90,6 +90,26 @@ func TestServePages(t *testing.T) {
 
 		assertRedirect(t, response, "/testpage2")
 	})
+
+	// When I try to visit a path that ends with ".htm", redirect to the same path without the trailing extension.
+	t.Run("redirects trailing '.htm' to correct path", func(t *testing.T) {
+		request := newGetReq("/testpage.htm")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		assertRedirect(t, response, "/testpage")
+	})
+
+	// When I try to visit a different path that ends with ".htm", redirect to that path without the trailing extension.
+	t.Run("redirects different trailing '.htm' to correct path", func(t *testing.T)  {
+		request := newGetReq("/testpage2.htm")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		assertRedirect(t, response, "/testpage2")
+	})
 }
 
 func newGetReq(path string) *http.Request {
