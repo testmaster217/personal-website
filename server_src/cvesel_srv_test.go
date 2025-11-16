@@ -13,45 +13,45 @@ func TestServePages(t *testing.T) {
 
 	// When I request a page, it should return that page.
 	t.Run("returns the requested page", func(t *testing.T) {
-		request := NewGetReq("/testpage")
+		request := newGetReq("/testpage")
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
 
-		AssertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
+		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
 		assertResponseBody(t, response.Body.String(), "<html><body>test page plz ignore</body></html>")
 	})
 
 	// When I request a different page, it should return that page.
 	t.Run("returns a different requested page", func(t *testing.T) {
-		request := NewGetReq("/testpage2")
+		request := newGetReq("/testpage2")
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
 
-		AssertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
+		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
 		assertResponseBody(t, response.Body.String(), "<html><body>2nd test page plz ignore</body></html>")
 	})
 
 	// When I request a CSS file, it should return that file.
 	t.Run("returns a requested CSS file", func(t *testing.T) {
-		request := NewGetReq("/teststyles.css")
+		request := newGetReq("/teststyles.css")
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
 
-		AssertMimeType(t, response.Result().Header.Get("Content-Type"), "text/css")
+		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/css")
 		assertResponseBody(t, response.Body.String(), "body {color: blue;}")
 	})
 
 	// When I request a binary file, it should return that data.
 	t.Run("returns a requested binary file", func(t *testing.T) {
-		request := NewGetReq("/testdata.dat")
+		request := newGetReq("/testdata.dat")
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
 
-		AssertMimeType(t, response.Result().Header.Get("Content-Type"), "application/octet-stream")
+		assertMimeType(t, response.Result().Header.Get("Content-Type"), "application/octet-stream")
 
 		got := response.Body.Bytes()
 		// "test data plz ignore" followed by a bunch of random bytes
@@ -68,12 +68,12 @@ func TestServePages(t *testing.T) {
 	})
 }
 
-func NewGetReq(path string) *http.Request {
+func newGetReq(path string) *http.Request {
 	req, _ := http.NewRequest(http.MethodGet, path, nil)
 	return req
 }
 
-func AssertMimeType(t testing.TB, got, want string) {
+func assertMimeType(t testing.TB, got, want string) {
 	t.Helper()
 	if !strings.Contains(got, want) {
 		t.Errorf("content is the wrong MIME type, got %q, want %q", got, want)
