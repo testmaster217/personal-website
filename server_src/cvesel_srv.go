@@ -27,6 +27,7 @@ func NewCveselServer(docRoot string) *CveselServer {
 // - TODO: If the requested path is "/", or "/index[.htm|.html]" (possibly with a "/" at the end), redirect to "/" if necessary, and serve the contents of "index.html".
 // - TODO: If this does not apply, and the path ends with ".html" or ".htm" (not counting a trailing "/"), redirect to the equivalent path without the extension.
 // - If the path does not end with a file extension (not counting a trailing "/"), serve the file that has that name with ".html" added onto the end.
+// - TODO: "Collection" pages (pages whose purpose is to give links to other pages, i.e. "collinvesel.me/blog/"; these will have the same name as a folder in the same directory) should have a trailing "/" in their paths, but other pages should not. Redirect as necessary.
 // Whatever gets served after the above are evaluated should be served differently depending on whether the request came from HTMX or not, as indicated by the "HX-Request" header:
 // - If the file is NOT an HTML file, serve it as is.
 // - PARTIAL TODO; DOESN'T WORK WITH PARTIAL PAGES YET: If the header is msising or set to "false", combine the data to be served with a base page and serve that.
