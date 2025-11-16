@@ -11,6 +11,8 @@ import (
 func TestServePages(t *testing.T) {
 	server := NewCveselServer("./testpages")
 
+	// === HAPPY PATHS === //
+
 	// When I request a page, it should return that page.
 	t.Run("returns the requested page", func(t *testing.T) {
 		request := newGetReq("/testpage")
@@ -65,6 +67,38 @@ func TestServePages(t *testing.T) {
 		if !slices.Equal(got, want) {
 			t.Errorf("wrong page contents, got %s, want %s", got, want)
 		}
+	})
+
+	// === REDIRECTS === //
+
+	// When I try to visit a path that ends with ".html", redirect to the same path without the trailing extension.
+	t.Run("redirects trailing '.html' to correct path", func(t *testing.T)  {
+		request := newGetReq("/testpage.html")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		// Don't need to actually follow the redirect, just need to know that we got the right response.
+		gotStatus := response.Result().StatusCode
+		wantStatus := 301
+
+		if gotStatus != wantStatus {
+			t.Errorf("wrong HTTP response, got %d, want %d", gotStatus, wantStatus)
+		}
+
+		// Do also want to make sure that we're being redirected to the right place, though.
+		gotRedirectUrl := response.Result().Header.Get("Location")
+		wantRedirectUrl := "/testpage"
+
+		if gotRedirectUrl != wantRedirectUrl {
+			t.Errorf("wrong redirect URL, got %q, want %q", gotRedirectUrl, wantRedirectUrl)
+		}
+
+		// Also need to make sure the body is correct.
+		// (This is partly a side effect of my TDD-ing, and partly a response to
+		// a security breach I found out about on the 0.2 version of my website
+		// which wasn't using this server.)
+		assertResponseBody(t, response.Body.String(), "<a href=\"/testpage\">Moved Permanently</a>.\n\n")
 	})
 }
 
