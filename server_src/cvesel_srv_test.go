@@ -78,27 +78,17 @@ func TestServePages(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
-		// Don't need to actually follow the redirect, just need to know that we got the right response.
-		gotStatus := response.Result().StatusCode
-		wantStatus := 301
+		assertRedirect(t, response, "/testpage")
+	})
 
-		if gotStatus != wantStatus {
-			t.Errorf("wrong HTTP response, got %d, want %d", gotStatus, wantStatus)
-		}
+	// When I try to visit a different path that ends with ".html", redirect to that path without the trailing extension.
+	t.Run("redirects different trailing '.html' to correct path", func(t *testing.T)  {
+		request := newGetReq("/testpage2.html")
+		response := httptest.NewRecorder()
 
-		// Do also want to make sure that we're being redirected to the right place, though.
-		gotRedirectUrl := response.Result().Header.Get("Location")
-		wantRedirectUrl := "/testpage"
+		server.ServeHTTP(response, request)
 
-		if gotRedirectUrl != wantRedirectUrl {
-			t.Errorf("wrong redirect URL, got %q, want %q", gotRedirectUrl, wantRedirectUrl)
-		}
-
-		// Also need to make sure the body is correct.
-		// (This is partly a side effect of my TDD-ing, and partly a response to
-		// a security breach I found out about on the 0.2 version of my website
-		// which wasn't using this server.)
-		assertResponseBody(t, response.Body.String(), "<a href=\"/testpage\">Moved Permanently</a>.\n\n")
+		assertRedirect(t, response, "/testpage2")
 	})
 }
 
@@ -119,4 +109,28 @@ func assertResponseBody(t testing.TB, got, want string) {
 	if got != want {
 		t.Errorf("wrong page contents, got %q, want %q", got, want)
 	}
+}
+
+func assertRedirect(t testing.TB, got *httptest.ResponseRecorder, wantRedirectUrl string) {
+	t.Helper()
+	// Don't need to actually follow the redirect, just need to know that we got the right response.
+	gotStatus := got.Result().StatusCode
+	wantStatus := http.StatusMovedPermanently
+
+	if gotStatus != wantStatus {
+		t.Errorf("wrong HTTP response, got %d, want %d", gotStatus, wantStatus)
+	}
+
+	// Do also want to make sure that we're being redirected to the right place, though.
+	gotRedirectUrl := got.Result().Header.Get("Location")
+
+	if gotRedirectUrl != wantRedirectUrl {
+		t.Errorf("wrong redirect URL, got %q, want %q", gotRedirectUrl, wantRedirectUrl)
+	}
+
+	// Also need to make sure the body is correct.
+	// (This is partly a side effect of my TDD-ing, and partly a response to
+	// a security breach I found out about on the 0.2 version of my website
+	// which wasn't using this server.)
+	assertResponseBody(t, got.Body.String(), "<a href=\"" + wantRedirectUrl + "\">Moved Permanently</a>.\n\n")
 }

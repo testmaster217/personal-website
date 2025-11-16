@@ -36,7 +36,7 @@ func NewCveselServer(docRoot string) *CveselServer {
 func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// If the request path ends with ".html", redirect to the same path without it.
 	if strings.HasSuffix(r.URL.Path, ".html") {
-		http.Redirect(w, r, "/testpage", http.StatusMovedPermanently)
+		http.Redirect(w, r, r.URL.Path[:len(r.URL.Path) - len(".html")], http.StatusMovedPermanently)
 		return
 	}
 	// If the path does not end with a file extension, add ".html".
