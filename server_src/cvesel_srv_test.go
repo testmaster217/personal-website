@@ -142,6 +142,7 @@ func TestServePages(t *testing.T) {
 
 		assertRedirect(t, response, "/testpage")
 	})
+
 	// When I visit a page that does not end with a "/" but is supposed to, it should redirect to the correect path.
 	// When I visit a page that ends with a ".html/" and is supposed to have the "/", it should redirect to the correct path.
 	// When I visit a page that ends with a ".html/" but is not supposed to have the "/", it should redirect to the correct path.
@@ -149,6 +150,19 @@ func TestServePages(t *testing.T) {
 	// When I visit a page that ends with a ".htm/" and is supposed to have the "/", it should redirect to the correct path.
 	// When I visit a page that ends with a ".htm/" but is not supposed to have the "/", it should redirect to the correct path.
 	// When I visit a page that ends with a ".htm" but is supposed to end with a "/", it should redirect to the correect path.
+	// When I visit a file that isn't a page, but I have a trailing "/", redirect to the same path without it.
+
+	// === ERRORS === //
+
+	// TODO: When I try to request a page that exists, but I can't get it's metadata, the server should return a 500 error.
+	// TODO: When I try to request a file that exists, but I can't get it's metadata, the server should return a 500 error.
+	// TODO: When I try to request a collection page that exists, but I can't get the directory's metadata, the server should return a 500 error.
+	// When I try to request a page, but that page isn't a regular file (it's instead a directory or a symlink or something), the server should return a 500 error.
+	// When I try to request a page, but that page isn't an HTML file (it says it is, but it actually contains other content), the server should return a 500 error.
+	// When I try to request a collection page, but the directory is not a directory (it's a symlink or something), the server should return a 500 error.
+	// When I request a file that is not a page, but that file (the path with no modifications) does not exist, the server should return a 404 error.
+	// When I request a page, but that page (the path I requested wirth ".html" added to the end) does not exist, the server should return a 404 error.
+	// TODO: Decide if I want versions of these tests with different combinations of trailing "/", ".htm", and ".html".
 }
 
 func newGetReq(path string) *http.Request {

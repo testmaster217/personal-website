@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-
 	"os"
 	"regexp"
 	"strings"
@@ -115,8 +114,7 @@ func (srv *CveselServer) checkPathShouldHaveTrailingSlash(path string) bool {
 	defer htmlFile.Close()
 	// Try to get the HTML file's information.
 	d, err := htmlFile.Stat()
-	// This can throw the same errors as openning the file, and should be
-	// handled the same way (I assume).
+	// TODO: Should return an error instead of a result if err != nil.
 	if err != nil {
 		return false
 	}
@@ -144,8 +142,7 @@ func (srv *CveselServer) checkPathShouldHaveTrailingSlash(path string) bool {
 	defer collectionDir.Close()
 	// Try to get the directory's information.
 	d, err = collectionDir.Stat()
-	// This can throw the same errors as openning the directory, and should be
-	// handled the same way (I assume).
+	// TODO: Should return an error instead of a result if err != nil.
 	if err != nil {
 		return false
 	}
