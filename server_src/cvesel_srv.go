@@ -56,18 +56,15 @@ func NewCveselServer(docRoot string) *CveselServer {
 // what the values of those headers should be, etc.
 func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	pathWithoutTrailingSlash, hasTrailingSlash := strings.CutSuffix(r.URL.Path, "/")
-	redirectPath := ""
 
+	// === Redirect logic === //
+	redirectPath := ""
 	// If the request path ends with ".html", redirect to the same path without it.
 	if strings.HasSuffix(pathWithoutTrailingSlash, ".html") {
-		// http.Redirect(w, r, pathWithoutTrailingSlash[:len(pathWithoutTrailingSlash)-len(".html")], http.StatusMovedPermanently)
-		// return
 		redirectPath = pathWithoutTrailingSlash[:len(pathWithoutTrailingSlash)-len(".html")]
 	}
 	// Ditto for trailing ".htm"
 	if strings.HasSuffix(pathWithoutTrailingSlash, ".htm") {
-		// http.Redirect(w, r, pathWithoutTrailingSlash[:len(pathWithoutTrailingSlash)-len(".htm")], http.StatusMovedPermanently)
-		// return
 		redirectPath = pathWithoutTrailingSlash[:len(pathWithoutTrailingSlash)-len(".htm")]
 	}
 	// If the path doesn't have a trailing "/" but should, redirect accordingly.
@@ -91,8 +88,10 @@ func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if !isFileRegexp.MatchString(r.URL.Path) {
 		r.URL.Path = pathWithoutTrailingSlash + ".html"
 	}
-	// Requests to other files should have the correct file extension.
+	// Requests to other files should have the correct file extension and can be
+	// served as-is.
 
+	// Serve the requested page.
 	srv.baseServer.ServeHTTP(w, r)
 }
 
