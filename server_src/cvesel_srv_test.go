@@ -91,6 +91,9 @@ func TestServePages(t *testing.T) {
 		assertResponseBody(t, response.Body.String(), "<html><body>2nd test collection plz ignore<br><a href=\"/testcollection/item1\">item 1</a><br><a href=\"/testcollection/item2\">item 2</a><br><a href=\"/testcollection/item3\">item 3</a></body></html>")
 	})
 
+	// TODO: Add stuff involving HTMX and modify the existing tests to use it.
+	// TODO: Add stuff involving the root page.
+
 	// === REDIRECTS === //
 
 	// When I try to visit a path that ends with ".html", redirect to the same path without the trailing extension.
@@ -152,7 +155,7 @@ func TestServePages(t *testing.T) {
 	// When I visit a page that ends with a ".htm" but is supposed to end with a "/", it should redirect to the correect path.
 	// When I visit a file that isn't a page, but I have a trailing "/", redirect to the same path without it.
 
-	// === ERRORS === //
+	// === 500 ERRORS === //
 
 	// TODO: When I try to request a page that exists, but I can't get it's metadata, the server should return a 500 error.
 	// TODO: When I try to request a file that exists, but I can't get it's metadata, the server should return a 500 error.
@@ -160,9 +163,29 @@ func TestServePages(t *testing.T) {
 	// When I try to request a page, but that page isn't a regular file (it's instead a directory or a symlink or something), the server should return a 500 error.
 	// When I try to request a page, but that page isn't an HTML file (it says it is, but it actually contains other content), the server should return a 500 error.
 	// When I try to request a collection page, but the directory is not a directory (it's a symlink or something), the server should return a 500 error.
+
+	// === 404 ERRORS === //
+
 	// When I request a file that is not a page, but that file (the path with no modifications) does not exist, the server should return a 404 error.
 	// When I request a page, but that page (the path I requested wirth ".html" added to the end) does not exist, the server should return a 404 error.
 	// TODO: Decide if I want versions of these tests with different combinations of trailing "/", ".htm", and ".html".
+
+	// === 405 ERRORS === //
+	// When I try to use a POST method, the server should return a 405 error.
+	// When I try to use a PUT method, the server should return a 405 error.
+	// When I try to use a PATCH method, the server should return a 405 error.
+	// When I try to use a DELETE method, the server should return a 405 error.
+	// When I try to use a CONNECT method, the server should return a 405 error. (This may change in the future.)
+	// When I try to use a TRACE method, the server should return a 405 error. (This may change in the future.)
+
+	// === OTHER ERRORS === //
+
+	// When a path maps to a file outside the server's docRoot, the server should return a 403 error.
+	
+	// === OTHER TESTS === //
+	// When I try to use an OPTIONS method, the server should return a 204 response with an Allow header listing all allowed methods. (Currently, these are OPTIONS, GET, and HEAD for the entire server, but this may change in the future.)
+	// When I try to use a HEAD method, the server should return the same response that it would send for a GET method, but without a response body.
+	// TODO: Add HTTPS stuff.
 }
 
 func newGetReq(path string) *http.Request {
