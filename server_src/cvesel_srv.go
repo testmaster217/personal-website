@@ -71,7 +71,7 @@ func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		redirectPath = pathWithoutTrailingSlash[:len(pathWithoutTrailingSlash)-len(".htm")]
 	}
 	// If the path doesn't have a trailing "/" but should, redirect accordingly.
-	shouldHaveTrailingSlash := srv.pathShouldHaveTrailingSlash(pathWithoutTrailingSlash)
+	shouldHaveTrailingSlash := srv.checkPathShouldHaveTrailingSlash(pathWithoutTrailingSlash)
 	if !hasTrailingSlash && shouldHaveTrailingSlash {
 		redirectPath = redirectPath + "/"
 	}
@@ -96,7 +96,7 @@ func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	srv.baseServer.ServeHTTP(w, r)
 }
 
-func (srv *CveselServer) pathShouldHaveTrailingSlash(path string) bool {
+func (srv *CveselServer) checkPathShouldHaveTrailingSlash(path string) bool {
 	// Assume "<path>" is the path without a trailing slash.
 	// If "<path>" points to a folder and "<path>.html" points to an HTML file,
 	// then the user is requesting a collection page and the path should have a
