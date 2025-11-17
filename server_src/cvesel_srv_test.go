@@ -94,7 +94,7 @@ func TestServePages(t *testing.T) {
 	// TODO: Add stuff involving HTMX and modify the existing tests to use it.
 	// TODO: Add stuff involving the root page.
 
-	// === REDIRECTS === //
+	// === TRAILING SLASH REDIRECTS === //
 
 	// When I try to visit a path that ends with ".html", redirect to the same path without the trailing extension.
 	t.Run("redirects trailing '.html' to correct path", func(t *testing.T)  {
@@ -147,6 +147,14 @@ func TestServePages(t *testing.T) {
 	})
 
 	// When I visit a page that does not end with a "/" but is supposed to, it should redirect to the correect path.
+	t.Run("redirects missing trailing '/' to correct path", func(t *testing.T) {
+		request := newGetReq("/testcollection")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		assertRedirect(t, response, "/testcollection/")
+	})
 	// When I visit a page that ends with a ".html/" and is supposed to have the "/", it should redirect to the correct path.
 	// When I visit a page that ends with a ".html/" but is not supposed to have the "/", it should redirect to the correct path.
 	// When I visit a page that ends with a ".html" but is supposed to end with a "/", it should redirect to the correect path.
@@ -184,7 +192,7 @@ func TestServePages(t *testing.T) {
 	// When a path maps to a file outside the server's docRoot, the server should return a 403 error.
 	
 	// === OTHER TESTS === //
-	
+
 	// When I try to use an OPTIONS method, the server should return a 204 response with an Allow header listing all allowed methods. (Currently, these are OPTIONS, GET, and HEAD for the entire server, but this may change in the future.)
 	// When I try to use a HEAD method, the server should return the same response that it would send for a GET method, but without a response body.
 	// TODO: Add HTTPS stuff.

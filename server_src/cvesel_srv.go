@@ -69,7 +69,11 @@ func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// If the path doesn't have a trailing "/" but should, redirect accordingly.
 	shouldHaveTrailingSlash := srv.checkPathShouldHaveTrailingSlash(pathWithoutTrailingSlash)
 	if !hasTrailingSlash && shouldHaveTrailingSlash {
-		redirectPath = redirectPath + "/"
+		if redirectPath == "" {
+			redirectPath = pathWithoutTrailingSlash + "/"
+		} else {
+			redirectPath = redirectPath + "/"
+		}
 	}
 	// If the path has a trailing "/" but shouldn't, redirect accordingly.
 	// (If redirectPath was set earlier, it doesn't need to be set again here.)
