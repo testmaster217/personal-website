@@ -171,6 +171,7 @@ func TestServePages(t *testing.T) {
 	// TODO: Decide if I want versions of these tests with different combinations of trailing "/", ".htm", and ".html".
 
 	// === 405 ERRORS === //
+
 	// When I try to use a POST method, the server should return a 405 error.
 	// When I try to use a PUT method, the server should return a 405 error.
 	// When I try to use a PATCH method, the server should return a 405 error.
@@ -183,6 +184,7 @@ func TestServePages(t *testing.T) {
 	// When a path maps to a file outside the server's docRoot, the server should return a 403 error.
 	
 	// === OTHER TESTS === //
+	
 	// When I try to use an OPTIONS method, the server should return a 204 response with an Allow header listing all allowed methods. (Currently, these are OPTIONS, GET, and HEAD for the entire server, but this may change in the future.)
 	// When I try to use a HEAD method, the server should return the same response that it would send for a GET method, but without a response body.
 	// TODO: Add HTTPS stuff.
