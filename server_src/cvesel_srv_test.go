@@ -80,6 +80,17 @@ func TestServePages(t *testing.T) {
 		assertResponseBody(t, response.Body.String(), "<html><body>test collection plz ignore<br><a href=\"/testcollection/item1\">item 1</a><br><a href=\"/testcollection/item2\">item 2</a><br><a href=\"/testcollection/item3\">item 3</a></body></html>")
 	})
 
+	// When I visit a different page that ends with a "/" and is supposed to, it should serve that page.
+	t.Run("returns a different requested collection page", func(t *testing.T)  {
+		request := newGetReq("/testcollection2/")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
+		assertResponseBody(t, response.Body.String(), "<html><body>2nd test collection plz ignore<br><a href=\"/testcollection/item1\">item 1</a><br><a href=\"/testcollection/item2\">item 2</a><br><a href=\"/testcollection/item3\">item 3</a></body></html>")
+	})
+
 	// === REDIRECTS === //
 
 	// When I try to visit a path that ends with ".html", redirect to the same path without the trailing extension.
@@ -123,6 +134,14 @@ func TestServePages(t *testing.T) {
 	})
 
 	// When I visit a page that ends with a "/" but is not supposed to, it should redirect to the correct path.
+	t.Run("redirects incorrect trailing '/' to correct path", func(t *testing.T) {
+		request := newGetReq("/testpage/")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		assertRedirect(t, response, "/testpage")
+	})
 	// When I visit a page that does not end with a "/" but is supposed to, it should redirect to the correect path.
 	// When I visit a page that ends with a ".html/" and is supposed to have the "/", it should redirect to the correct path.
 	// When I visit a page that ends with a ".html/" but is not supposed to have the "/", it should redirect to the correct path.

@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"net/http"
+
+	"os"
 	"regexp"
 	"strings"
 )
@@ -13,46 +15,148 @@ type CveselServer struct {
 	// The base file server that my custom server will extend.
 	// Should not be set manually, will be set by the NewCveselServer function.
 	baseServer http.Handler
+	// The document root for the server.
+	docRoot string
 }
 
 func NewCveselServer(docRoot string) *CveselServer {
 	fileServer := http.FileServer(http.Dir(docRoot))
-	return &CveselServer{fileServer}
+	return &CveselServer{fileServer, docRoot}
 }
 
 // Should do different things depending on what is requested:
 // - If the path ends with a "." followed by anything other than "html" or "htm",
-// - - THIS IS CUT: If the file is executable and is not a JS file, it should be executed, and the results should be served.
+// - - THIS IS CUT: If the file is executable and is not a JS file, it should be
+// executed, and the results should be served.
 // - - Otherwise, the file should be served as is.
-// - TODO: If the requested path is "/", or "/index[.htm|.html]" (possibly with a "/" at the end), redirect to "/" if necessary, and serve the contents of "index.html".
-// - PARTIAL TODO; HANDLE TRAILING SLASH: If this does not apply, and the path ends with ".html" or ".htm" (not counting a trailing "/"), redirect to the equivalent path without the extension.
-// - PARTIAL TODO; HANDLE TRAILING SLASH: If the path does not end with a file extension (not counting a trailing "/"), serve the file that has that name with ".html" added onto the end.
-// - TODO: "Collection" pages (pages whose purpose is to give links to other pages, i.e. "collinvesel.me/blog/"; these will have the same name as a folder in the same directory) should have a trailing "/" in their paths, but other pages should not. Redirect as necessary.
-// Whatever gets served after the above are evaluated should be served differently depending on whether the request came from HTMX or not, as indicated by the "HX-Request" header:
+// - TODO: If the requested path is "/", or "/index[.htm|.html]" (possibly with
+// a "/" at the end), redirect to "/" if necessary, and serve the contents of
+// "index.html".
+// - PARTIAL TODO; HANDLE TRAILING SLASH: If this does not apply, and the path
+// ends with ".html" or ".htm" (not counting a trailing "/"), redirect to the
+// equivalent path without the extension.
+// - PARTIAL TODO; HANDLE TRAILING SLASH: If the path does not end with a file
+// extension (not counting a trailing "/"), serve the file that has that name
+// with ".html" added onto the end.
+// - TODO: "Collection" pages (pages whose purpose is to give links to other
+// pages, i.e. "collinvesel.me/blog/"; these will have the same name as a folder
+// in the same directory) should have a trailing "/" in their paths, but other
+// pages should not. Redirect as necessary.
+// Whatever gets served after the above are evaluated should be served
+// differently depending on whether the request came from HTMX or not, as
+// indicated by the "HX-Request" header:
 // - If the file is NOT an HTML file, serve it as is.
-// - PARTIAL TODO; DOESN'T WORK WITH PARTIAL PAGES YET: If the header is msising or set to "false", combine the data to be served with a base page and serve that.
+// - PARTIAL TODO; DOESN'T WORK WITH PARTIAL PAGES YET: If the header is msising
+// or set to "false", combine the data to be served with a base page and serve
+// that.
 // - TODO: Otherwise, serve the data as is.
 //
-// TODO: Find out what else I need to make sure this server does, what other standards it needs to comply with, what headers the responses need to have, what the values of those headers should be, etc.
+// TODO: Find out what else I need to make sure this server does, what other
+// standards it needs to comply with, what headers the responses need to have,
+// what the values of those headers should be, etc.
 func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	pathWithoutTrailingSlash, hasTrailingSlash := strings.CutSuffix(r.URL.Path, "/")
+	redirectPath := ""
+
 	// If the request path ends with ".html", redirect to the same path without it.
-	if strings.HasSuffix(r.URL.Path, ".html") {
-		http.Redirect(w, r, r.URL.Path[:len(r.URL.Path) - len(".html")], http.StatusMovedPermanently)
-		return
+	if strings.HasSuffix(pathWithoutTrailingSlash, ".html") {
+		// http.Redirect(w, r, pathWithoutTrailingSlash[:len(pathWithoutTrailingSlash)-len(".html")], http.StatusMovedPermanently)
+		// return
+		redirectPath = pathWithoutTrailingSlash[:len(pathWithoutTrailingSlash)-len(".html")]
 	}
 	// Ditto for trailing ".htm"
-	if strings.HasSuffix(r.URL.Path, ".htm") {
-		http.Redirect(w, r, r.URL.Path[:len(r.URL.Path) - len(".htm")], http.StatusMovedPermanently)
+	if strings.HasSuffix(pathWithoutTrailingSlash, ".htm") {
+		// http.Redirect(w, r, pathWithoutTrailingSlash[:len(pathWithoutTrailingSlash)-len(".htm")], http.StatusMovedPermanently)
+		// return
+		redirectPath = pathWithoutTrailingSlash[:len(pathWithoutTrailingSlash)-len(".htm")]
+	}
+	// If the path doesn't have a trailing "/" but should, redirect accordingly.
+	shouldHaveTrailingSlash := srv.pathShouldHaveTrailingSlash(pathWithoutTrailingSlash)
+	if !hasTrailingSlash && shouldHaveTrailingSlash {
+		redirectPath = redirectPath + "/"
+	}
+	// If the path has a trailing "/" but shouldn't, redirect accordingly.
+	// (If redirectPath was set earlier, it doesn't need to be set again here.)
+	if hasTrailingSlash && !shouldHaveTrailingSlash && redirectPath == "" {
+		redirectPath = pathWithoutTrailingSlash
+	}
+	// Redirect if we need to.
+	if redirectPath != "" {
+		http.Redirect(w, r, redirectPath, http.StatusMovedPermanently)
 		return
 	}
 
+	// At this point, we don't need to redirect.
 	// If the path does not end with a file extension, add ".html".
 	if !isFileRegexp.MatchString(r.URL.Path) {
-		newPath, _ := strings.CutSuffix(r.URL.Path, "/")
-		r.URL.Path = newPath + ".html"
+		r.URL.Path = pathWithoutTrailingSlash + ".html"
 	}
+	// Requests to other files should have the correct file extension.
 
 	srv.baseServer.ServeHTTP(w, r)
+}
+
+func (srv *CveselServer) pathShouldHaveTrailingSlash(path string) bool {
+	// Assume "<path>" is the path without a trailing slash.
+	// If "<path>" points to a folder and "<path>.html" points to an HTML file,
+	// then the user is requesting a collection page and the path should have a
+	// trailing "/".
+	// Otherwise, there should not be a trailing "/".
+
+	// Remove leading "/" from the path to avoid breaking the I/O functions below.
+	path, _ = strings.CutPrefix(path, "/")
+	// Try to open the HTML file.
+	htmlFile, err := os.OpenInRoot(srv.docRoot, path + ".html")
+	// If something went wrong, then the file either doesn't exist or can't
+	// be accessed, so it definitely is not a collection page.
+	if err != nil {
+		return false
+	}
+	// Don't forget to close it when we're done.
+	defer htmlFile.Close()
+	// Try to get the HTML file's information.
+	d, err := htmlFile.Stat()
+	// This can throw the same errors as openning the file, and should be
+	// handled the same way (I assume).
+	if err != nil {
+		return false
+	}
+	// If the HTML file isn't actually a file (it's something else), then it
+	// definitely isn't a collection page.
+	if !d.Mode().IsRegular() {
+		return false
+	}
+	// Check if it's actually an HTML file. (It can't be a collection page if
+	// it isn't a page at all.)
+	first512Bytes := make([]byte, 512)
+	htmlFile.Read(first512Bytes)
+	htmlFileType := http.DetectContentType(first512Bytes)
+	if !strings.Contains(htmlFileType, "text/html") {
+		return false
+	}
+	// Try to open the directory.
+	collectionDir, err := os.OpenInRoot(srv.docRoot, path)
+	// If something went wrong, then the directory either doesn't exist or can't
+	// be accessed, so it definitely is not a collection page.
+	if err != nil {
+		return false
+	}
+	// Don't forget to close it when we're done.
+	defer collectionDir.Close()
+	// Try to get the directory's information.
+	d, err = collectionDir.Stat()
+	// This can throw the same errors as openning the directory, and should be
+	// handled the same way (I assume).
+	if err != nil {
+		return false
+	}
+	// If the directory isn't actually a directory (it's something else), then
+	// what the user is requesting isn't a collection page.
+	if !d.Mode().IsDir() {
+		return false
+	}
+	// If we get all the way here, then the user did request a collection page.
+	return true
 }
 
 func main() {
