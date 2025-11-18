@@ -226,6 +226,8 @@ func TestServePages(t *testing.T) {
 		assertRedirect(t, response, "/teststyles.css")
 	})
 
+	// TODO: Add stuff related to the root.
+
 	// === 500 ERRORS === //
 
 	// TODO: When I try to request a page that exists, but I can't get it's metadata, the server should return a 500 error.
