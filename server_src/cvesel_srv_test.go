@@ -217,6 +217,14 @@ func TestServePages(t *testing.T) {
 	})
 
 	// When I visit a file that isn't a page, but I have a trailing "/", redirect to the same path without it.
+	t.Run("redirects trailing '/' on non-page file to correct path", func(t *testing.T)  {
+		request := newGetReq("/teststyles.css/")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		assertRedirect(t, response, "/teststyles.css")
+	})
 
 	// === 500 ERRORS === //
 
