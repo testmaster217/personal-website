@@ -155,7 +155,17 @@ func TestServePages(t *testing.T) {
 
 		assertRedirect(t, response, "/testcollection/")
 	})
+
 	// When I visit a page that ends with a ".html/" and is supposed to have the "/", it should redirect to the correct path.
+	t.Run("redirects trailing '.html' plus correct '/' to '/'", func(t *testing.T) {
+		request := newGetReq("/testcollection.html/")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		assertRedirect(t, response, "/testcollection/")
+	})
+	
 	// When I visit a page that ends with a ".html/" but is not supposed to have the "/", it should redirect to the correct path.
 	// When I visit a page that ends with a ".html" but is supposed to end with a "/", it should redirect to the correect path.
 	// When I visit a page that ends with a ".htm/" and is supposed to have the "/", it should redirect to the correct path.

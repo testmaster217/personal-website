@@ -66,8 +66,16 @@ func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if strings.HasSuffix(pathWithoutTrailingSlash, ".htm") {
 		redirectPath = pathWithoutTrailingSlash[:len(pathWithoutTrailingSlash)-len(".htm")]
 	}
+	// Need to find out if the path should have a trailing "/". If redirectPath
+	// has been set, use taht so that the path we test does NOT have an HTML file
+	// extension. Otherwise, use pathWithoutTrailingSlash.
+	shouldHaveTrailingSlash := false
+	if redirectPath != "" {
+		shouldHaveTrailingSlash = srv.checkPathShouldHaveTrailingSlash(redirectPath)
+	} else {
+		shouldHaveTrailingSlash = srv.checkPathShouldHaveTrailingSlash(pathWithoutTrailingSlash)
+	}
 	// If the path doesn't have a trailing "/" but should, redirect accordingly.
-	shouldHaveTrailingSlash := srv.checkPathShouldHaveTrailingSlash(pathWithoutTrailingSlash)
 	if !hasTrailingSlash && shouldHaveTrailingSlash {
 		if redirectPath == "" {
 			redirectPath = pathWithoutTrailingSlash + "/"
@@ -79,6 +87,12 @@ func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// (If redirectPath was set earlier, it doesn't need to be set again here.)
 	if hasTrailingSlash && !shouldHaveTrailingSlash && redirectPath == "" {
 		redirectPath = pathWithoutTrailingSlash
+	}
+	// If the path does have a trailing "/" and should have that trailing "/",
+	// but the redirect path has already been set earlier, add the trailing "/"
+	// back in.
+	if hasTrailingSlash && shouldHaveTrailingSlash && redirectPath != "" {
+		redirectPath = redirectPath + "/"
 	}
 	// Redirect if we need to.
 	if redirectPath != "" {
@@ -99,7 +113,9 @@ func (srv *CveselServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (srv *CveselServer) checkPathShouldHaveTrailingSlash(path string) bool {
-	// Assume "<path>" is the path without a trailing slash.
+	// Assume "<path>" is the path without a trailing slash or HTML extension.
+	// (But other file extensions are allowed because they won't make this
+	// function work wrong.)
 	// If "<path>" points to a folder and "<path>.html" points to an HTML file,
 	// then the user is requesting a collection page and the path should have a
 	// trailing "/".
