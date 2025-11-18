@@ -165,7 +165,7 @@ func TestServePages(t *testing.T) {
 
 		assertRedirect(t, response, "/testcollection/")
 	})
-	
+
 	// When I visit a page that ends with a ".html/" but is not supposed to have the "/", it should redirect to the correct path.
 	// When I visit a page that ends with a ".html" but is supposed to end with a "/", it should redirect to the correect path.
 	// When I visit a page that ends with a ".htm/" and is supposed to have the "/", it should redirect to the correct path.
@@ -178,6 +178,7 @@ func TestServePages(t *testing.T) {
 	// TODO: When I try to request a page that exists, but I can't get it's metadata, the server should return a 500 error.
 	// TODO: When I try to request a file that exists, but I can't get it's metadata, the server should return a 500 error.
 	// TODO: When I try to request a collection page that exists, but I can't get the directory's metadata, the server should return a 500 error.
+	// When I try to request a file, but that file isn't a regular file (it's instead a symlink or something OR it's a directory, but doesn't have a corresponding HTML file), the server should return a 500 error.
 	// When I try to request a page, but that page isn't a regular file (it's instead a directory or a symlink or something), the server should return a 500 error.
 	// When I try to request a page, but that page isn't an HTML file (it says it is, but it actually contains other content), the server should return a 500 error.
 	// When I try to request a collection page, but the directory is not a directory (it's a symlink or something), the server should return a 500 error.
@@ -196,6 +197,7 @@ func TestServePages(t *testing.T) {
 	// When I try to use a DELETE method, the server should return a 405 error.
 	// When I try to use a CONNECT method, the server should return a 405 error. (This may change in the future.)
 	// When I try to use a TRACE method, the server should return a 405 error. (This may change in the future.)
+	// When I try to use a nonstandard method, the server should return a 405 error.
 
 	// === OTHER ERRORS === //
 
