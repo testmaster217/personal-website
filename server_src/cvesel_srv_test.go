@@ -207,6 +207,15 @@ func TestServePages(t *testing.T) {
 	})
 
 	// When I visit a page that ends with a ".htm" but is supposed to end with a "/", it should redirect to the correect path.
+	t.Run("redirects trailing '.htm' plus missing '/' to correct path", func(t *testing.T) {
+		request := newGetReq("/testcollection.htm")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		assertRedirect(t, response, "/testcollection/")
+	})
+
 	// When I visit a file that isn't a page, but I have a trailing "/", redirect to the same path without it.
 
 	// === 500 ERRORS === //
