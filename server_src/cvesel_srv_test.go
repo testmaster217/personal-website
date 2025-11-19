@@ -11,7 +11,7 @@ import (
 func TestServePages(t *testing.T) {
 	server := NewCveselServer("./testpages")
 
-	// === HAPPY PATHS === //
+	// === HAPPY PATHS - NO HTNX === //
 
 	// When I request a page, it should return that page.
 	t.Run("returns the requested page", func(t *testing.T) {
@@ -91,7 +91,16 @@ func TestServePages(t *testing.T) {
 		assertResponseBody(t, response.Body.String(), "<html><body>2nd test collection plz ignore<br><a href=\"/testcollection/item1\">item 1</a><br><a href=\"/testcollection/item2\">item 2</a><br><a href=\"/testcollection/item3\">item 3</a></body></html>")
 	})
 
-	// TODO: Add stuff involving HTMX and modify the existing tests to use it.
+	// === HAPPY PATHS - HTMX === //
+
+	// When I request a page, it should return that page, but not the base page content.
+	// When I request a non-page file, it should return that file regardless of the HTMX header.
+
+	// === HAPPY PATHS - FALSE HTMX === //
+
+	// When I request a page, it should return that page.
+	// When I request a non-page file, it should return that file regardless of the HTMX header.
+
 	// TODO: Add stuff involving the root page.
 
 	// === TRAILING SLASH REDIRECTS === //
