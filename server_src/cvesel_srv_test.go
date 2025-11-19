@@ -94,6 +94,17 @@ func TestServePages(t *testing.T) {
 	// === HAPPY PATHS - HTMX === //
 
 	// When I request a page, it should return that page, but not the base page content.
+	t.Run("returns the requested partial page", func(t *testing.T) {
+		request := newGetReq("/testpage")
+		request.Header.Set("Hx-Request", "true")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
+		assertResponseBody(t, response.Body.String(), "<body>test page plz ignore</body>")
+	})
+
 	// When I request a non-page file, it should return that file regardless of the HTMX header.
 
 	// === HAPPY PATHS - FALSE HTMX === //
@@ -272,6 +283,7 @@ func TestServePages(t *testing.T) {
 	// When I try to use an OPTIONS method, the server should return a 204 response with an Allow header listing all allowed methods. (Currently, these are OPTIONS, GET, and HEAD for the entire server, but this may change in the future.)
 	// When I try to use a HEAD method, the server should return the same response that it would send for a GET method, but without a response body.
 	// TODO: Add HTTPS stuff.
+	// TODO: Find out what standards this server needs to comply with and make sure it does (unless this would cause security issues).
 }
 
 func newGetReq(path string) *http.Request {
