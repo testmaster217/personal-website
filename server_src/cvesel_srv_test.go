@@ -21,7 +21,7 @@ func TestServePages(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
-		assertResponseBody(t, response.Body.String(), "<html><body>test page plz ignore</body></html>")
+		assertResponseBody(t, response.Body.String(), "<html><body><p>test page plz ignore</p></body></html>")
 	})
 
 	// When I request a different page, it should return that page.
@@ -32,7 +32,7 @@ func TestServePages(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
-		assertResponseBody(t, response.Body.String(), "<html><body>2nd test page plz ignore</body></html>")
+		assertResponseBody(t, response.Body.String(), "<html><body><p>2nd test page plz ignore</p></body></html>")
 	})
 
 	// When I request a CSS file, it should return that file.
@@ -77,7 +77,7 @@ func TestServePages(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
-		assertResponseBody(t, response.Body.String(), "<html><body>test collection plz ignore<br><a href=\"/testcollection/item1\">item 1</a><br><a href=\"/testcollection/item2\">item 2</a><br><a href=\"/testcollection/item3\">item 3</a></body></html>")
+		assertResponseBody(t, response.Body.String(), "<html><body><p>test collection plz ignore<br><a href=\"/testcollection/item1\">item 1</a><br><a href=\"/testcollection/item2\">item 2</a><br><a href=\"/testcollection/item3\">item 3</a></p></body></html>")
 	})
 
 	// When I visit a different page that ends with a "/" and is supposed to, it should serve that page.
@@ -88,7 +88,7 @@ func TestServePages(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
-		assertResponseBody(t, response.Body.String(), "<html><body>2nd test collection plz ignore<br><a href=\"/testcollection/item1\">item 1</a><br><a href=\"/testcollection/item2\">item 2</a><br><a href=\"/testcollection/item3\">item 3</a></body></html>")
+		assertResponseBody(t, response.Body.String(), "<html><body><p>2nd test collection plz ignore<br><a href=\"/testcollection/item1\">item 1</a><br><a href=\"/testcollection/item2\">item 2</a><br><a href=\"/testcollection/item3\">item 3</a></p></body></html>")
 	})
 
 	// === HAPPY PATHS - HTMX === //
@@ -102,7 +102,7 @@ func TestServePages(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
-		assertResponseBody(t, response.Body.String(), "<body>test page plz ignore</body>")
+		assertResponseBody(t, response.Body.String(), "<p>test page plz ignore</p>")
 	})
 
 	// When I request a non-page file, it should return that file regardless of the HTMX header.
@@ -277,6 +277,7 @@ func TestServePages(t *testing.T) {
 	// === OTHER ERRORS === //
 
 	// When a path maps to a file outside the server's docRoot, the server should return a 403 error.
+	// When I try to request the base page ("__base__.html"), the server should return a 403 error.
 	
 	// === OTHER TESTS === //
 
