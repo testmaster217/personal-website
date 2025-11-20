@@ -21,7 +21,7 @@ func TestServePages(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
-		assertResponseBody(t, response.Body.String(), "<html><head><title>test page</title></head><body><p>test page plz ignore</p></body></html>")
+		assertResponseBody(t, response.Body.String(), "<html><head><link rel=\"stylesheet\" href=\"teststyles.css\"/><title>test page</title></head><body><h1>This is a test!</h1><p>test page plz ignore</p></body></html>")
 	})
 
 	// When I request a different page, it should return that page.
@@ -32,7 +32,7 @@ func TestServePages(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
-		assertResponseBody(t, response.Body.String(), "<html><head><title>test page 2</title></head><body><p>2nd test page plz ignore</p></body></html>")
+		assertResponseBody(t, response.Body.String(), "<html><head><link rel=\"stylesheet\" href=\"teststyles.css\"/><title>test page 2</title></head><body><h1>This is a test!</h1><p>2nd test page plz ignore</p></body></html>")
 	})
 
 	// When I request a CSS file, it should return that file.
@@ -77,7 +77,7 @@ func TestServePages(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
-		assertResponseBody(t, response.Body.String(), "<html><head><title>test collection</title></head><body><p>test collection plz ignore<br><a href=\"/testcollection/item1\">item 1</a><br><a href=\"/testcollection/item2\">item 2</a><br><a href=\"/testcollection/item3\">item 3</a></p></body></html>")
+		assertResponseBody(t, response.Body.String(), "<html><head><link rel=\"stylesheet\" href=\"teststyles.css\"/><title>test collection</title></head><body><h1>This is a test!</h1><p>test collection plz ignore<br><a href=\"/testcollection/item1\">item 1</a><br><a href=\"/testcollection/item2\">item 2</a><br><a href=\"/testcollection/item3\">item 3</a></p></body></html>")
 	})
 
 	// When I visit a different page that ends with a "/" and is supposed to, it should serve that page.
@@ -88,7 +88,7 @@ func TestServePages(t *testing.T) {
 		server.ServeHTTP(response, request)
 
 		assertMimeType(t, response.Result().Header.Get("Content-Type"), "text/html")
-		assertResponseBody(t, response.Body.String(), "<html><head><title>test collection 2</title></head><body><p>2nd test collection plz ignore<br><a href=\"/testcollection/item1\">item 1</a><br><a href=\"/testcollection/item2\">item 2</a><br><a href=\"/testcollection/item3\">item 3</a></p></body></html>")
+		assertResponseBody(t, response.Body.String(), "<html><head><link rel=\"stylesheet\" href=\"teststyles.css\"/><title>test collection 2</title></head><body><h1>This is a test!</h1><p>2nd test collection plz ignore<br><a href=\"/testcollection/item1\">item 1</a><br><a href=\"/testcollection/item2\">item 2</a><br><a href=\"/testcollection/item3\">item 3</a></p></body></html>")
 	})
 
 	// === HAPPY PATHS - HTMX === //
